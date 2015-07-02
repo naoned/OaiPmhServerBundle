@@ -11,4 +11,6 @@ interface DataProviderInterface
     public function getEarliestDatestamp();
 
     public function getRecord($id);
+
+    public function getSets($record);
 }
