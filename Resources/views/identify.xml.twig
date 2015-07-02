@@ -1,0 +1,13 @@
+{% extends 'NaonedOaiPmhServerBundle::template.xml.twig' %}
+
+{% block content %}
+	<Identify>
+		<repositoryName>{{ repositoryName }}</repositoryName>
+		<baseURL>{{ url(app.request.attributes.get('_route')) }}</baseURL>
+		<protocolVersion>2.0</protocolVersion>
+		<earliestDatestamp>{{ earliestDatestamp|date('Y-m-d\\T') }}</earliestDatestamp>
+		<deletedRecord>no</deletedRecord>
+		<granularity>YYYY-MM-DDT</granularity>
+		<adminEmail>{{ adminEmail }}</adminEmail>
+	</Identify>
+{% endblock %}
