@@ -1,0 +1,6 @@
+naoned_vanao_search_breadcrumb:
+    pattern: ''
+    defaults:
+        _controller: NaonedOaiPmhServerBundle:Main:Index
+        _format: xml
+
