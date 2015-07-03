@@ -1,0 +1,10 @@
+{% extends 'NaonedOaiPmhServerBundle::template.xml.twig' %}
+
+{% block content %}
+  <ListRecords>
+    {% for record in records %}
+      {% include 'NaonedOaiPmhServerBundle::record.xml.twig' %}
+    {% endfor %}
+    {% include 'NaonedOaiPmhServerBundle::resumptionToken.xml.twig' with {paginationData: records.paginationData} %}
+  </ListRecords>
+{% endblock %}

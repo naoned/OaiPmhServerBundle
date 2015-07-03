@@ -12,5 +12,9 @@ interface DataProviderInterface
 
     public function getRecord($id);
 
-    public function getSets($record);
+    public function getRecordsIterator($set);
+
+    public function getSetsForRecord($record);
+
+    public function getSetsIterator();
 }

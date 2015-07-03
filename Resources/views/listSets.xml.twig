@@ -1,0 +1,13 @@
+{% extends 'NaonedOaiPmhServerBundle::template.xml.twig' %}
+
+{% block content %}
+  <ListSets>
+    {% for oaiSet in sets %}
+      <set>
+        <setSpec>{{ oaiSet.identifier }}</setSpec>
+        <setName>{{ oaiSet.name }}</setName>
+      </set>
+    {% endfor %}
+    {% include 'NaonedOaiPmhServerBundle::resumptionToken.xml.twig' with {paginationData: sets.paginationData} %}
+  </ListSets>
+{% endblock %}

@@ -1,0 +1,14 @@
+<record>
+  <header>
+    <identifier>{{ record.rec_uuid }}</identifier>
+    {# <datestamp>{{ record.rec_date }}</datestamp> #}
+    {% for set in sets %}
+      <setSpec>{{ set }}</setSpec>
+    {% endfor %}
+  </header>
+  {% if headersOnly is not defined or not headersOnly %}
+    <metadata>
+      {% include 'NaonedOaiPmhServerBundle::recordMetadata_'.metadataPrefix.'.xml.twig' %}
+    </metadata>
+  {% endif %}
+</record>

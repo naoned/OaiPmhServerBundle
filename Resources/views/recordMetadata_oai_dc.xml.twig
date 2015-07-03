@@ -1,0 +1,49 @@
+<oai_dc:dc
+   xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/
+   http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+  {% if (record.dc_title is defined and record.dc_title) %}
+      <dc:title>{{ record.dc_title }}</dc:title>
+  {% endif %}
+  {% if (record.dc_creator is defined and record.dc_creator) %}
+      <dc:creator>{{ record.dc_creator }}</dc:creator>
+  {% endif %}
+  {% if (record.dc_subject is defined and record.dc_subject) %}
+      <dc:subject>{{ record.dc_subject }}</dc:subject>
+  {% endif %}
+  {% if (record.dc_description is defined and record.dc_description) %}
+      <dc:description>{{ record.dc_description }}</dc:description>
+  {% endif %}
+  {% if (record.dc_date is defined and record.dc_date) %}
+      <dc:date>{{ record.dc_date.0.from }}</dc:date>
+  {% endif %}
+  {% if (record.dc_coverage is defined and record.dc_coverage) %}
+      <dc:coverage>{{ record.dc_coverage }}</dc:coverage>
+  {% endif %}
+  {% if (record.dc_type is defined and record.dc_type) %}
+      <dc:type>{{ record.dc_type }}</dc:type>
+  {% endif %}
+  {% if (record.dc_relation is defined and record.dc_relation) %}
+      <dc:relation>{{ record.dc_relation }}</dc:relation>
+  {% endif %}
+  {% if (record.dc_source is defined and record.dc_source) %}
+      <dc:source>{{ record.dc_source }}</dc:source>
+  {% endif %}
+  {% if (record.dc_rights is defined and record.dc_rights) %}
+      <dc:rights>{{ record.dc_rights }}</dc:rights>
+  {% endif %}
+  {% if (record.dc_format is defined and record.dc_format) %}
+      <dc:format>{{ record.dc_format }}</dc:format>
+  {% endif %}
+  {% if (record.dc_identifier is defined and record.dc_identifier) %}
+      <dc:identifier>{{ record.dc_identifier }}</dc:identifier>
+  {% endif %}
+  {% if (record.dc_language is defined and record.dc_language) %}
+      <dc:language>{{ record.dc_language }}</dc:language>
+  {% endif %}
+  {% if (record.dc_publisher is defined and record.dc_publisher) %}
+      <dc:publisher>{{ record.dc_publisher }}</dc:publisher>
+  {% endif %}
+</oai_dc:dc>

@@ -1,0 +1,13 @@
+{% extends 'NaonedOaiPmhServerBundle::template.xml.twig' %}
+
+{% block content %}
+  <ListMetadataFormats>
+  {% for prefix, metadata in availableMetadata %}
+    <metadataFormat>
+      <metadataPrefix>{{ prefix }}</metadataPrefix>
+      <schema>{{ metadata.schema }}</schema>
+      <metadataNamespace>{{ metadata.metadataNamespace }}</metadataNamespace>
+    </metadataFormat>
+  {% endfor %}
+ </ListMetadataFormats>
+{% endblock %}
