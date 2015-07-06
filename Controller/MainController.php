@@ -99,10 +99,10 @@ class MainController extends Controller
             'identifier',
         ));
         $this->checkMetadataPrefix();
-
+        $record = $this->retrieveRecord();
         $viewParams = array(
-            'record' => $this->retrieveRecord(),
-            'sets'   => $dataProvider->getSets($record),
+            'record' => $record,
+            'sets'   => $dataProvider->getSetsForRecord($record),
         );
 
         return $this->render(
@@ -118,17 +118,14 @@ class MainController extends Controller
             array('from','until','set'),
             array('resumptionToken')
         );
-        if ($this->queryParams['resumptionToken']) {
+        if (!array_key_exists('resumptionToken', $this->queryParams)) {
             $this->checkMetadataPrefix();
         }
-        $this->paginate($iterator);
 
         $dataProvider = $this->get('oai_pmh_data_provider');
-        $records = $dataProvider->getRecordsIterator(
-            $this->paginatedParams['set'] ? $this->paginatedParams['set'] : null,
-            $paginatedParams['from'],
-            $paginatedParams['until']
-        );
+        $this->retrieveRealParams();
+        $records = $dataProvider->getRecordsIterator($this->realParams['set']);
+        $records = $this->paginate($records);
         if (!count($records)) {
             throw new noRecordsMatchException();
         }
@@ -136,12 +133,13 @@ class MainController extends Controller
         $viewParams = array(
             'records'     => $records,
             'headersOnly' => $headersOnly,
+            'resumption' => $this->resumption,
         );
 
         // throw new noSetHierarchyException();
         return $this->render(
             'NaonedOaiPmhServerBundle::listRecords.xml.twig',
-            array_merge($this->paginatedParams, $viewParams)
+            array_merge($this->queryParams, $viewParams)
         );
     }
 
@@ -173,9 +171,10 @@ class MainController extends Controller
         $this->retrieveAndCheckArguments(array(), array(), array('resumptionToken'));
         $dataProvider = $this->get('oai_pmh_data_provider');
         $sets = $dataProvider->getSetsIterator();
-        // if (!$sets->count()) {
-        //     throw new NoSetHierarchyException();
-        // }
+        if (!count($sets)) {
+            throw new NoSetHierarchyException();
+        }
+        $this->retrieveRealParams();
         return $this->render(
             'NaonedOaiPmhServerBundle::listSets.xml.twig',
             array(
@@ -186,7 +185,7 @@ class MainController extends Controller
         );
     }
 
-    public function paginate($iterator)
+    public function retrieveRealParams()
     {
         if (array_key_exists('resumptionToken', $this->queryParams)
             && $resumptionToken = $this->queryParams['resumptionToken']
@@ -195,27 +194,37 @@ class MainController extends Controller
             if (!$sessionData || $sessionData['verb'] != $this->queryParams['verb']) {
                 throw new badResumptionTokenException();
             }
-            $currentPage     = $sessionData['currentPage'];
-            $numItemsPerPage = $sessionData['numItemsPerPage'];
+            $this->realParams = $sessionData;
         } else {
-            $from = array_key_exists('from', $this->queryParams) ? $this->queryParams['from'] : $this->defaultFrom;
-            $until = array_key_exists('until', $this->queryParams) ? $this->queryParams['until'] : $this->defaultUntil;
+            $from = array_key_exists('from', $this->queryParams) && $this->queryParams['from']
+                ? $this->queryParams['from']
+                : $this->defaultFrom;
+            $until = array_key_exists('until', $this->queryParams) && $this->queryParams['until']
+                ? $this->queryParams['until']
+                : $this->defaultUntil;
             if ($until <= $from) {
                 throw new BadArgumentException('UNTIL cannot be higher than FROM');
             }
-            $numItemsPerPage = $until - $from;
-            $currentPage     = $until / $numItemsPerPage;
-            if (!is_int($currentPage)) {
+            $this->realParams['numItemsPerPage'] = $until - $from;
+            $this->realParams['currentPage']     = $until / $this->realParams['numItemsPerPage'];
+            $this->realParams['verb']            = $this->queryParams['verb'];
+            $this->realParams['set'] = array_key_exists('set', $this->queryParams) && $this->queryParams['set']
+                ? $this->queryParams['set']
+                : null;
+            if (!is_int($this->realParams['currentPage'])) {
                 throw new BadArgumentException('Cannot paginate');
             }
         }
+    }
 
+    public function paginate($iterator)
+    {
         $paginator = $this->get('knp_paginator');
         // $paginator->setDefaultPaginatorOptions(array('pageParameterName' => 'group'));
         $pagination = $paginator->paginate(
             $iterator,
-            $currentPage,
-            $numItemsPerPage
+            $this->realParams['currentPage'],
+            $this->realParams['numItemsPerPage']
         );
         $data = $pagination->getPaginationData();
         $this->resumption = null;
@@ -227,10 +236,9 @@ class MainController extends Controller
             $this->get('session')->set(
                 'oaipmh_'.$this->resumption['token'],
                 array_merge(
-                    $this->queryParams,
+                    $this->realParams,
                     array(
-                        'currentPage'     => $currentPage+1,
-                        'numItemsPerPage' => $numItemsPerPage,
+                        'currentPage'     => $this->realParams['currentPage']+1,
                     )
                 )
             );
