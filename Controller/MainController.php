@@ -124,7 +124,11 @@ class MainController extends Controller
             $this->queryParams,
             $this->get('session')
         );
-        $records = $dataProvider->getRecords(isset($searchParams['set']) ? $searchParams['set'] : null);
+        $records = $dataProvider->getRecords(
+            isset($searchParams['set']) ? $searchParams['set'] : null,
+            isset($searchParams['from']) ? new \DateTime($searchParams['from']) : null,
+            isset($searchParams['until']) ? new \DateTime($searchParams['until']) : null
+        );
         if (!(is_array($records) || $records instanceof \ArrayObject)) {
             throw new Exception('Implementation error: Records must be an array or an arrayObject');
         }

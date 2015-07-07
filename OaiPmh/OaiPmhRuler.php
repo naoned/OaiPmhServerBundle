@@ -13,7 +13,7 @@ use Naoned\OaiPmhServerBundle\Exception\IdDoesNotExistException;
 class OaiPmhRuler
 {
     private static $defaultStarts = 0;
-    private static $countPerLoad  = 50;
+    private static $countPerLoad  = 5;
     // This server currently supports only oai_dc Data format
     private static $availableMetadata = array(
         'oai_dc' => array(
@@ -38,7 +38,7 @@ class OaiPmhRuler
         if (array_key_exists('resumptionToken', $queryParams)
             && $resumptionToken = $queryParams['resumptionToken']
         ) {
-            $sessionData = $session->get($this->sessionPrefix.$resumptionToken);
+            $sessionData = $session->get(self::$sessionPrefix.$resumptionToken);
             if (!$sessionData || $sessionData['verb'] != $queryParams['verb']) {
                 throw new badResumptionTokenException();
             }
@@ -67,11 +67,12 @@ class OaiPmhRuler
                 'totalCount' => count($items),
             );
             $session->set(
-                $this->sessionPrefix.$resumption['token'],
+                self::$sessionPrefix.$resumption['token'],
                 array_merge(
                     $searchParams,
                     array(
-                        'starts' => $searchParams['starts'] + $countPerLoad,
+                        'starts' => $searchParams['starts'] + self::$countPerLoad,
+                        'ends'   => $searchParams['starts'] + self::$countPerLoad * 2,
                     )
                 )
             );
