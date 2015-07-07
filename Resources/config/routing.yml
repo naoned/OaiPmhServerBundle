@@ -1,4 +1,4 @@
-naoned_vanao_search_breadcrumb:
+naoned_oaipmh:
     pattern: ''
     defaults:
         _controller: NaonedOaiPmhServerBundle:Main:Index
