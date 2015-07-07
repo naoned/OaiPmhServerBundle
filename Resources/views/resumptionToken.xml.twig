@@ -1,6 +1,6 @@
 
 <resumptionToken
   {% if resumption %}expirationDate="{{ resumption.expiresOn|date('Y-m-d\\TH:i:sP') }}"{% endif %}
-  completeListSize="{{ paginationData.totalCount }}"
-  cursor="{{ (paginationData.current-1)*paginationData.numItemsPerPage }}"
+  completeListSize="{{ totalCount }}"
+  cursor="{{ starts }}"
 >{% if resumption %}{{ resumption.token }}{% endif %}</resumptionToken>

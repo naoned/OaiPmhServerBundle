@@ -4,6 +4,6 @@ namespace Naoned\OaiPmhServerBundle\Exception;
 
 use Symfony\Component\DependencyInjection\Exception\ExceptionInterface;
 
-class OaiPmhServerException extends \BadMethodCallException implements ExceptionInterface
+abstract class OaiPmhServerException extends \Exception implements ExceptionInterface
 {
 }

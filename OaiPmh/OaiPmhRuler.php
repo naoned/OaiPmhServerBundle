@@ -12,16 +12,16 @@ use Naoned\OaiPmhServerBundle\Exception\IdDoesNotExistException;
 
 class OaiPmhRuler
 {
-    private $defaultFrom = 0;
-    private $defaultUntil = 40;
-    // This server currently supports only DC Data
-    private $availableMetadata = array(
+    private static $defaultStarts = 0;
+    private static $countPerLoad  = 50;
+    // This server currently supports only oai_dc Data format
+    private static $availableMetadata = array(
         'oai_dc' => array(
            'schema'            => 'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
            'metadataNamespace' => 'http://www.openarchives.org/OAI/2.0/oai_dc/',
         )
     );
-    private $sessionPrefix = 'oaipmh_';
+    private static $sessionPrefix = 'oaipmh_';
 
     public function getSessionPrefix()
     {
@@ -30,7 +30,7 @@ class OaiPmhRuler
 
     public function getAvailableMetadata()
     {
-        return $this->availableMetadata;
+        return self::$availableMetadata;
     }
 
     public function getSearchParams($queryParams, $session)
@@ -38,33 +38,15 @@ class OaiPmhRuler
         if (array_key_exists('resumptionToken', $queryParams)
             && $resumptionToken = $queryParams['resumptionToken']
         ) {
-            $sessionData = $session->get(self::sessionPrefix.$resumptionToken);
+            $sessionData = $session->get($this->sessionPrefix.$resumptionToken);
             if (!$sessionData || $sessionData['verb'] != $queryParams['verb']) {
                 throw new badResumptionTokenException();
             }
             $searchParams = $sessionData;
         } else {
-            $from = array_key_exists('from', $queryParams) && $queryParams['from']
-                ? $queryParams['from']
-                : $this->defaultFrom;
-            $until = array_key_exists('until', $queryParams) && $queryParams['until']
-                ? $queryParams['until']
-                : $this->defaultUntil;
-            if (!is_integer($until) || !is_integer($from)) {
-                throw new BadArgumentException('UNTIL and FROM must both be integer');
-            }
-            if ($until <= $from) {
-                throw new BadArgumentException('UNTIL cannot be higher than FROM');
-            }
-            $searchParams['numItemsPerPage'] = $until - $from;
-            $searchParams['currentPage']     = $until / $searchParams['numItemsPerPage'];
-            $searchParams['verb']            = $queryParams['verb'];
-            $searchParams['set'] = array_key_exists('set', $queryParams) && $queryParams['set']
-                ? $queryParams['set']
-                : null;
-            if (!is_int($searchParams['currentPage'])) {
-                throw new BadArgumentException('Cannot paginate');
-            }
+            $searchParams           = $queryParams;
+            $searchParams['starts'] = self::$defaultStarts;
+            $searchParams['ends']   = self::$defaultStarts + self::$countPerLoad - 1;
         }
 
         return $searchParams;
@@ -75,9 +57,31 @@ class OaiPmhRuler
         return uniqid();
     }
 
+    public function getResumption($items, $searchParams, $session)
+    {
+        $resumption = null;
+        if ($searchParams['ends'] < count($items)) {
+            $resumption = array(
+                'token'      => $this->generateResumptionToken(),
+                'expiresOn'  => time()+604800,
+                'totalCount' => count($items),
+            );
+            $session->set(
+                $this->sessionPrefix.$resumption['token'],
+                array_merge(
+                    $searchParams,
+                    array(
+                        'starts' => $searchParams['starts'] + $countPerLoad,
+                    )
+                )
+            );
+        }
+        return $resumption;
+    }
+
     public function checkMetadataPrefix($queryParams)
     {
-        if (!in_array($queryParams['metadataPrefix'], array_keys($this->availableMetadata))) {
+        if (!in_array($queryParams['metadataPrefix'], array_keys(self::$availableMetadata))) {
             throw new cannotDisseminateFormatException();
         }
     }

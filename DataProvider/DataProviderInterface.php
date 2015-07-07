@@ -12,7 +12,7 @@ interface DataProviderInterface
 
     public function getRecord($id);
 
-    public function getRecords($set);
+    public function getRecords($set = null, \DateTime $from = null, \DataTime $until = null);
 
     public function getSetsForRecord($record);
 
