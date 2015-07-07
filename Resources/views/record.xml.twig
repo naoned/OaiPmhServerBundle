@@ -2,8 +2,12 @@
   <header>
     <identifier>{{ record.rec_uuid }}</identifier>
     {# <datestamp>{{ record.rec_date }}</datestamp> #}
-    {% for set in sets %}
-      <setSpec>{{ set }}</setSpec>
+    {% for selectionId in record.selections %}
+      {% for setSelectionId, setName in sets %}
+        {% if setSelectionId == selectionId %}
+          <setSpec>{{ setName }}</setSpec>
+        {% endif %}
+      {% endfor %}
     {% endfor %}
   </header>
   {% if headersOnly is not defined or not headersOnly %}

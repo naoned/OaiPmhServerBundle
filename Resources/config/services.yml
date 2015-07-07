@@ -1,0 +1,4 @@
+
+services:
+    naoned.oaipmh.ruler:
+        class: Naoned\OaiPmhServerBundle\OaiPmh\OaiPmhRuler
