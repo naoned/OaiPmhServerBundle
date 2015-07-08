@@ -13,7 +13,7 @@ use Naoned\OaiPmhServerBundle\Exception\IdDoesNotExistException;
 class OaiPmhRuler
 {
     private static $defaultStarts = 0;
-    private static $countPerLoad  = 5;
+    private static $countPerLoad  = 50;
     // This server currently supports only oai_dc Data format
     private static $availableMetadata = array(
         'oai_dc' => array(

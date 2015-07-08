@@ -74,10 +74,8 @@ class MainController extends Controller
         return $this->render(
             'NaonedOaiPmhServerBundle::identify.xml.twig',
             array(
-                'repositoryName'    => $dataProvider->getRepositoryName(),
-                'adminEmail'        => $dataProvider->getAdminEmail(),
-                'earliestDatestamp' => $dataProvider->getEarliestDatestamp(),
-                'queryParams'       => $this->queryParams,
+                'dataProvider' => $dataProvider,
+                'queryParams'  => $this->queryParams,
             )
         );
     }
@@ -94,14 +92,15 @@ class MainController extends Controller
             )
         );
         $oaiPmhRuler->checkMetadataPrefix($this->queryParams);
-        $record = $this->retrieveRecord();
+        $record = $this->retrieveRecord($this->queryParams['identifier']);
 
         return $this->render(
             'NaonedOaiPmhServerBundle::getRecord.xml.twig',
             array(
-                'record'      => $record,
-                'sets'        => $dataProvider->getAllSetsBySelectionId(),
-                'queryParams' => $this->queryParams,
+                'record'         => $record,
+                'sets'           => $dataProvider->getAllSetsBySelectionId(),
+                'queryParams'    => $this->queryParams,
+                'metadataPrefix' => $this->queryParams['metadataPrefix'],
             )
         );
     }
@@ -213,6 +212,8 @@ class MainController extends Controller
                 'resumption'   => $resumption,
                 'searchParams' => $searchParams,
                 'queryParams'  => $this->queryParams,
+                'starts'       => $searchParams['starts'],
+                'ends'         => min($searchParams['ends'], count($sets) - 1),
             )
         );
     }

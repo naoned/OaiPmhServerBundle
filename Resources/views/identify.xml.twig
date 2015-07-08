@@ -2,12 +2,12 @@
 
 {% block content %}
 	<Identify>
-		<repositoryName>{{ repositoryName }}</repositoryName>
+		<repositoryName>{{ dataProvider.repositoryName }}</repositoryName>
 		<baseURL>{{ url(app.request.attributes.get('_route')) }}</baseURL>
 		<protocolVersion>2.0</protocolVersion>
-		<earliestDatestamp>{{ earliestDatestamp|date('Y-m-d\\T') }}</earliestDatestamp>
+		<earliestDatestamp>{{ dataProvider.earliestDatestamp|date('Y-m-d\\T') }}</earliestDatestamp>
 		<deletedRecord>no</deletedRecord>
 		<granularity>YYYY-MM-DDT</granularity>
-		<adminEmail>{{ adminEmail }}</adminEmail>
+		<adminEmail>{{ dataProvider.adminEmail }}</adminEmail>
 	</Identify>
 {% endblock %}

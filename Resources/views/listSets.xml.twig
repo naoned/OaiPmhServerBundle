@@ -8,6 +8,6 @@
         <setName>{{ oaiSet.name }}</setName>
       </set>
     {% endfor %}
-    {% include 'NaonedOaiPmhServerBundle::resumptionToken.xml.twig' with {paginationData: sets.paginationData} %}
+    {% include 'NaonedOaiPmhServerBundle::resumptionToken.xml.twig' with {totalCount: sets|length} %}
   </ListSets>
 {% endblock %}
