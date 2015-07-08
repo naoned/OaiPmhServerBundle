@@ -14,7 +14,7 @@ interface DataProviderInterface
 
     public function getRecords($set = null, \DateTime $from = null, \DataTime $until = null);
 
-    public function getSetsForRecord($record);
-
     public function getSets();
+
+    public function getSetsForRecordClosure();
 }

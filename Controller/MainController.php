@@ -98,7 +98,6 @@ class MainController extends Controller
             'NaonedOaiPmhServerBundle::getRecord.xml.twig',
             array(
                 'record'         => $record,
-                'sets'           => $dataProvider->getAllSetsBySelectionId(),
                 'queryParams'    => $this->queryParams,
                 'metadataPrefix' => $this->queryParams['metadataPrefix'],
             )
@@ -135,7 +134,6 @@ class MainController extends Controller
             throw new noRecordsMatchException();
         }
         $resumption = $oaiPmhRuler->getResumption($records, $searchParams, $this->get('session'));
-        $setsBySelectionId = $dataProvider->getAllSetsBySelectionId();
         if (isset($searchParams['set']) && !count($setsBySelectionId)) {
             throw new noSetHierarchyException();
         }
@@ -145,7 +143,6 @@ class MainController extends Controller
                 'records'        => $records,
                 'headersOnly'    => $headersOnly,
                 'resumption'     => $resumption,
-                'sets'           => $setsBySelectionId,
                 'starts'         => $searchParams['starts'],
                 'ends'           => min($searchParams['ends'], count($records) - 1),
                 'metadataPrefix' => $searchParams['metadataPrefix'],

@@ -2,3 +2,10 @@
 services:
     naoned.oaipmh.ruler:
         class: Naoned\OaiPmhServerBundle\OaiPmh\OaiPmhRuler
+
+    naoned.oaipmh.twig.record_extension:
+        class: Naoned\OaiPmhServerBundle\Twig\RecordExtension
+        calls:
+            - [ setDataProvider, [ @naoned.oaipmh.data_provider ] ]
+        tags:
+            - { name: twig.extension }
