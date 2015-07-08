@@ -2,12 +2,13 @@
 
 {% block content %}
   <ListSets>
-    {% for oaiSet in sets %}
+    {% for position in resumption.starts..resumption.ends %}
+      {% set oaiSet = resumption.items[position] %}
       <set>
         <setSpec>{{ oaiSet.identifier }}</setSpec>
         <setName>{{ oaiSet.name }}</setName>
       </set>
     {% endfor %}
-    {% include 'NaonedOaiPmhServerBundle::resumptionToken.xml.twig' with {totalCount: sets|length} %}
+    {% include 'NaonedOaiPmhServerBundle::resumptionToken.xml.twig' %}
   </ListSets>
 {% endblock %}

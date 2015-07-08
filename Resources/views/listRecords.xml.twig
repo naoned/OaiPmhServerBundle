@@ -2,9 +2,9 @@
 
 {% block content %}
   <ListRecords>
-    {% for position in starts..ends %}
-      {% include 'NaonedOaiPmhServerBundle::record.xml.twig' with {record: records[position]} %}
+    {% for position in resumption.starts..resumption.ends %}
+      {% include 'NaonedOaiPmhServerBundle::record.xml.twig' with {record: resumption.items[position]} %}
     {% endfor %}
-    {% include 'NaonedOaiPmhServerBundle::resumptionToken.xml.twig' with {totalCount: records|length} %}
+    {% include 'NaonedOaiPmhServerBundle::resumptionToken.xml.twig' %}
   </ListRecords>
 {% endblock %}

@@ -59,8 +59,10 @@ class OaiPmhRuler
 
     public function getResumption($items, $searchParams, $session)
     {
-        $resumption = null;
+        $resumption = array();
+        $resumption['next'] = false;
         if ($searchParams['ends'] < count($items)) {
+            $resumption['next'] = true;
             $resumption = array(
                 'token'      => $this->generateResumptionToken(),
                 'expiresOn'  => time()+604800,
@@ -77,6 +79,12 @@ class OaiPmhRuler
                 )
             );
         }
+        $resumption['starts'] = $searchParams['starts'];
+        $ends = $searchParams['starts'] + self::$countPerLoad - 1;
+        $resumption['ends'] = min(count($items) - 1, $ends);
+        $resumption['totalCount'] = count($items);
+        $resumption['items'] = $items;
+
         return $resumption;
     }
 

@@ -1,6 +1,6 @@
 
 <resumptionToken
-  {% if resumption %}expirationDate="{{ resumption.expiresOn|date('Y-m-d\\TH:i:sP') }}"{% endif %}
-  completeListSize="{{ totalCount }}"
-  cursor="{{ starts }}"
->{% if resumption %}{{ resumption.token }}{% endif %}</resumptionToken>
+  {% if resumption.next %}expirationDate="{{ resumption.expiresOn|date('Y-m-d\\TH:i:sP') }}"{% endif %}
+  completeListSize="{{ resumption.totalCount }}"
+  cursor="{{ resumption.starts }}"
+>{% if resumption.next %}{{ resumption.token }}{% endif %}</resumptionToken>
