@@ -75,8 +75,6 @@ namespace [YOUR_VENDOR]\[YOUR_BUNDLE]\[YOUR_PATH];
 
 use Naoned\OaiPmhServerBundle\DataProvider\DataProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Naoned\VanaoBundle\Search\SearchArrayObject;
 
 class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
 {
