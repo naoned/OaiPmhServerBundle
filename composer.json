@@ -1,0 +1,12 @@
+{
+    "name": "naoned/OaiPmhServerBundle",
+    "description": "Bundle for Symfony2 that provides an Oai-Pmh server for your data",
+    "keywords": ["oai-pmh", "oaipmh"],
+    "license": "MIT",
+    "type": "bundle",
+    "authors": [{"name": "vibby", "email": "vbeauvivre@naoned.fr"}],
+    "autoload": {
+        "psr-0": {"Naoned\\OaiPmhServerBundle\\": ""}
+    },
+    "target-dir" : "Naoned/OaiPmhServerBundle"
+}
