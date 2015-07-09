@@ -11,7 +11,7 @@ This is an Oai-Pmh server only, you have to plug your own data provider.
 * Automated resumption in large list, with arrays or ArrayObject
 * On fly XML generation, if you provide Records in a real-time data-accesing ArrayObject
 * Only supports oai_dc metadata Format until now
-* Fix resumption item-per-page at 50 (should be a parameter)
+* Parametrable resumption items-per-page (default at 50)
 
 ## Installation
 
