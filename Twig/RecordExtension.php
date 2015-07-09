@@ -23,22 +23,22 @@ class RecordExtension extends \Twig_Extension
         $this->dataProvider = $dataProvider;
     }
 
-    public function getRecordSets(array $record)
+    public function getRecordSets($record)
     {
         return $this->dataProvider->getSetsForRecord($record);
     }
 
-    public function dublinizeRecord(array $record)
+    public function dublinizeRecord($record)
     {
         return $this->dataProvider->dublinizeRecord($record);
     }
 
-    public function getRecordId(array $record)
+    public function getRecordId($record)
     {
         return $this->dataProvider->getRecordId($record);
     }
 
-    public function getRecordUpdated(array $record)
+    public function getRecordUpdated($record)
     {
         return $this->dataProvider->getRecordUpdated($record);
     }
