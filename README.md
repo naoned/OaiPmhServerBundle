@@ -140,31 +140,31 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
     {
         return array(
             array(
-                'id'          => '1W1',
+                'identifier'  => '1W1',
                 'title'       => 'Dummy content 1',
                 'description' => 'Some more dummy content',
                 'sets'        => array('seta', 'setb'),
             ),
             array(
-                'id'          => '1W2',
+                'identifier'  => '1W2',
                 'title'       => 'Dummy content 2',
                 'description' => 'Some more dummy content',
                 'sets'        => array('seta'),
             ),
             array(
-                'id'          => '1W3',
+                'identifier'  => '1W3',
                 'title'       => 'Dummy content 3',
                 'description' => 'Some more dummy content',
                 'sets'        => array('seta'),
             ),
             array(
-                'id'          => '1W4',
+                'identifier'  => '1W4',
                 'title'       => 'Dummy content 4',
                 'description' => 'Some more dummy content',
                 'sets'        => array('setc'),
             ),
             array(
-                'id'          => '1W5',
+                'identifier'  => '1W5',
                 'title'       => 'Dummy content 5',
                 'description' => 'Some more dummy content',
                 'sets'        => array('setd'),
@@ -190,6 +190,7 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
     public static function dublinizeRecord($record)
     {
         return array(
+            'dc_identifier'  => $record['identifier'],
             'dc_title'       => $record['title'],
             'dc_description' => $record['description'],
         );
@@ -211,7 +212,7 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
      */
     public static function getRecordId($record)
     {
-        return $record['id'];
+        return $record['identifier'];
     }
 
     /**

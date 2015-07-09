@@ -70,7 +70,7 @@ class MainController extends Controller
         $dataProvider = $this->getDataProvider();
         $oaiPmhRuler = $this->get('naoned.oaipmh.ruler');
         $this->queryParams = $oaiPmhRuler->retrieveAndCheckArguments(
-            $this->getRequest()->query->all()
+            $this->getAllArguments()
         );
         return $this->render(
             'NaonedOaiPmhServerBundle::identify.xml.twig',
@@ -86,7 +86,7 @@ class MainController extends Controller
         $dataProvider = $this->getDataProvider();
         $oaiPmhRuler = $this->get('naoned.oaipmh.ruler');
         $this->queryParams = $oaiPmhRuler->retrieveAndCheckArguments(
-            $this->getRequest()->query->all(),
+            $this->getAllArguments(),
             array(
                 'metadataPrefix',
                 'identifier',
@@ -109,7 +109,7 @@ class MainController extends Controller
     {
         $oaiPmhRuler = $this->get('naoned.oaipmh.ruler');
         $this->queryParams = $oaiPmhRuler->retrieveAndCheckArguments(
-            $this->getRequest()->query->all(),
+            $this->getAllArguments(),
             array('metadataPrefix'),
             array('from','until','set'),
             array('resumptionToken')
@@ -160,10 +160,9 @@ class MainController extends Controller
 
     private function listMetadataFormatsVerb()
     {
-        $request = $this->getRequest();
         $oaiPmhRuler = $this->get('naoned.oaipmh.ruler');
         $this->queryParams = $oaiPmhRuler->retrieveAndCheckArguments(
-            $request->query->all(),
+            $this->getAllArguments(),
             array(),
             array('identifier')
         );
@@ -182,10 +181,9 @@ class MainController extends Controller
 
     private function listSetsVerb()
     {
-        $request = $this->getRequest();
         $oaiPmhRuler = $this->get('naoned.oaipmh.ruler');
         $this->queryParams = $oaiPmhRuler->retrieveAndCheckArguments(
-            $request->query->all(),
+            $this->getAllArguments(),
             array(),
             array(),
             array('resumptionToken')
@@ -236,5 +234,13 @@ class MainController extends Controller
             throw new \Exception(sprintf("Class of service %s must implement %s", $service, 'DataProviderInterface'));
         }
         return $dataProvider;
+    }
+
+    private function getAllArguments()
+    {
+        return array_merge(
+            $this->getRequest()->query->all(),
+            $this->getRequest()->request->all()
+        );
     }
 }
