@@ -15,7 +15,7 @@ interface DataProviderInterface
     public function getAdminEmail();
 
     /**
-     * @return string Repository earliest update change on data
+     * @return \DateTime|string     Repository earliest update change on data
      */
     public function getEarliestDatestamp();
 
@@ -59,4 +59,18 @@ interface DataProviderInterface
      * @return boolean check
      */
     public function checkSupportSets();
+
+    /**
+     * Get identifier of id
+     * @param  any   $record An item of elements furnished by getRecords method
+     * @return string        Record Id
+     */
+    public static function getRecordId($record);
+
+    /**
+     * Get last change date
+     * @param  any   $record An item of elements furnished by getRecords method
+     * @return \DateTime|string     Record last change
+     */
+    public static function getRecordUpdated($record);
 }

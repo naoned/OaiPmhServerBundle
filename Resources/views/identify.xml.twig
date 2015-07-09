@@ -5,9 +5,9 @@
 		<repositoryName>{{ dataProvider.repositoryName }}</repositoryName>
 		<baseURL>{{ url(app.request.attributes.get('_route')) }}</baseURL>
 		<protocolVersion>2.0</protocolVersion>
-		<earliestDatestamp>{{ dataProvider.earliestDatestamp|date('Y-m-d\\T') }}</earliestDatestamp>
+		<adminEmai"l>{{ dataProvider.adminEmail }}</adminEmail>
+		<earliestDatestamp>{{ dataProvider.earliestDatestamp|date('Y-m-d') }}</earliestDatestamp>
 		<deletedRecord>no</deletedRecord>
-		<granularity>YYYY-MM-DDT</granularity>
-		<adminEmail>{{ dataProvider.adminEmail }}</adminEmail>
+		<granularity>YYYY-MM-DD</granularity>
 	</Identify>
 {% endblock %}

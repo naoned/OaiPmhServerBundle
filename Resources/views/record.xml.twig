@@ -1,7 +1,7 @@
 <record>
   <header>
-    <identifier>{{ record.rec_uuid }}</identifier>
-    {# <datestamp>{{ record.rec_date }}</datestamp> #}
+    <identifier>{{ get_record_id(record) }}</identifier>
+    <datestamp>{{ get_record_updated(record) }}</datestamp>
     {% for setName in get_record_sets(record) %}
           <setSpec>{{ setName }}</setSpec>
     {% endfor %}

@@ -35,9 +35,19 @@ Add the NaonedOaiPmhServerBundle to your application's kernel:
 
 ## Configuration
 
+
+Add to your config.yml
 ```yml
 naoned_oai_pmh_server:
     data_provider_service_name: naoned.oaipmh.data_provider
+```
+
+Add to your routing.yml
+```yml
+naoned_oai_pmh_server:
+    resource: "@NaonedOaiPmhServerBundle/Resources/config/routing.yml"
+    prefix:   /OaiPmh
+
 ```
 
 ## Define service
@@ -45,11 +55,7 @@ naoned_oai_pmh_server:
 In your own Bundle that manage data, add a service to expose data
 In file src/[YOUR_VENDOR]/[YOUR_BUNDLE]/Resources/config/services.yml
 ```yml
-    naoned.oaipmh.data_provider:
-        class: [YOUR_VENDOR]\[YOUR_BUNDLE]\[YOUR_PATH]\[YOUR_CLASS]
-        calls:
-            - [ setContainer, [@service_container] ]
-```
+i```
 
 ## Create Data provider
 
@@ -85,7 +91,7 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
     }
 
     /**
-     * @return string Repository earliest update change on data
+     * @return \DateTime|string     Repository earliest update change on data
      */
     public function getEarliestDatestamp()
     {
@@ -111,7 +117,16 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
      */
     public function getSets()
     {
-        return array('seta', 'setb', 'setc');
+        return array(
+            array(
+                'identifier' => 'seta',
+                'name'       => 'THE set number A',
+            ),
+            array(
+                'identifier' => 'setb',
+                'name'       => 'THE set identified by B',
+            )
+        );
     }
 
     /**
@@ -182,6 +197,26 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
     public function checkSupportSets()
     {
         return true;
+    }
+
+    /**
+     * Get identifier of id
+     * @param  any   $record An item of elements furnished by getRecords method
+     * @return string        Record Id
+     */
+    public static function getRecordId($record)
+    {
+        return $record['rec_uuid'];
+    }
+
+    /**
+     * Get last change date
+     * @param  any   $record An item of elements furnished by getRecords method
+     * @return \DateTime|string     Record last change
+     */
+    public static function getRecordUpdated($record)
+    {
+        return $record['rec_updated'];
     }
 }
 
