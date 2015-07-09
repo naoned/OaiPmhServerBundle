@@ -40,7 +40,9 @@ Add to your config.yml
 ```yml
 naoned_oai_pmh_server:
     data_provider_service_name: naoned.oaipmh.data_provider
+    count_per_load: 50
 ```
+You can choose here nb of records and sets in list with resumption
 
 Add to your routing.yml
 ```yml
@@ -49,6 +51,8 @@ naoned_oai_pmh_server:
     prefix:   /OaiPmh
 
 ```
+You can choose here route to your Oai-Pmh server
+
 
 ## Define service
 

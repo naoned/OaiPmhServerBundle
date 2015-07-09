@@ -3,7 +3,7 @@
     <identifier>{{ get_record_id(record) }}</identifier>
     <datestamp>{{ get_record_updated(record) }}</datestamp>
     {% for setName in get_record_sets(record) %}
-          <setSpec>{{ setName }}</setSpec>
+      <setSpec>{{ setName }}</setSpec>
     {% endfor %}
   </header>
   {% if headersOnly is not defined or not headersOnly %}

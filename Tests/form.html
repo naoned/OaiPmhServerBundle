@@ -1,0 +1,48 @@
+
+This form was made to test call to OaiPmh Server with POST method
+
+<hr />
+<form action="http://vibby4.vbeauvivre.insitu.mnesys.fr/OaiPmh/" method="POST">
+	verb : GetRecord<input type="hidden" name="verb" value="GetRecord" /><br />
+	identifier : <input name="identifier" value="a011" /><br />
+	metadataPrefix : <select name="metadataPrefix">
+		<option value="oai_dc">oai_dc</option>
+	</select><br />
+	<button type="submit">Soumettre</button>
+</form>
+
+<hr />
+<form action="http://vibby4.vbeauvivre.insitu.mnesys.fr/OaiPmh/" method="POST">
+	verb : Identify<input type="hidden" name="verb" value="Identify" /><br />
+	<button type="submit">Soumettre</button>
+</form>
+
+<hr />
+<form action="http://vibby4.vbeauvivre.insitu.mnesys.fr/OaiPmh/" method="POST">
+	verb : ListIdentifiers<input type="hidden" name="verb" value="ListIdentifiers" /><br />
+	metadataPrefix : <select name="metadataPrefix">
+		<option value="oai_dc">oai_dc</option>
+	</select><br />
+	<button type="submit">Soumettre</button>
+</form>
+
+<hr />
+<form action="http://vibby4.vbeauvivre.insitu.mnesys.fr/OaiPmh/" method="POST">
+	verb : ListMetadataFormats<input type="hidden" name="verb" value="ListMetadataFormats" /><br />
+	<button type="submit">Soumettre</button>
+</form>
+
+<hr />
+<form action="http://vibby4.vbeauvivre.insitu.mnesys.fr/OaiPmh/" method="POST">
+	verb : ListRecords<input type="hidden" name="verb" value="ListRecords" /><br />
+	metadataPrefix : <select name="metadataPrefix">
+		<option value="oai_dc">oai_dc</option>
+	</select><br />
+	<button type="submit">Soumettre</button>
+</form>
+
+<hr />
+<form action="http://vibby4.vbeauvivre.insitu.mnesys.fr/OaiPmh/" method="POST">
+	verb : ListSets<input type="hidden" name="verb" value="ListSets" /><br />
+	<button type="submit">Soumettre</button>
+</form>

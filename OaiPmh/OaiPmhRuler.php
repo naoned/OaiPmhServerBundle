@@ -13,7 +13,7 @@ use Naoned\OaiPmhServerBundle\Exception\IdDoesNotExistException;
 class OaiPmhRuler
 {
     private static $defaultStarts = 0;
-    private static $countPerLoad  = 50;
+    public $countPerLoad;
     // This server currently supports only oai_dc Data format
     private static $availableMetadata = array(
         'oai_dc' => array(
@@ -22,6 +22,11 @@ class OaiPmhRuler
         )
     );
     private static $sessionPrefix = 'oaipmh_';
+
+    public function setCountPerLoad($countPerLoad)
+    {
+        $this->countPerLoad = $countPerLoad;
+    }
 
     public function getSessionPrefix()
     {
@@ -46,7 +51,7 @@ class OaiPmhRuler
         } else {
             $searchParams           = $queryParams;
             $searchParams['starts'] = self::$defaultStarts;
-            $searchParams['ends']   = self::$defaultStarts + self::$countPerLoad - 1;
+            $searchParams['ends']   = self::$defaultStarts + $this->countPerLoad - 1;
         }
 
         return $searchParams;
@@ -61,26 +66,24 @@ class OaiPmhRuler
     {
         $resumption = array();
         $resumption['next'] = false;
-        if ($searchParams['ends'] < count($items)) {
-            $resumption['next'] = true;
-            $resumption = array(
-                'token'      => $this->generateResumptionToken(),
-                'expiresOn'  => time()+604800,
-                'totalCount' => count($items),
-            );
+        if ($searchParams['ends'] < count($items) + 1) {
+            $resumption['next']       = true;
+            $resumption['token']      = $this->generateResumptionToken();
+            $resumption['expiresOn']  = time()+604800;
+            $resumption['totalCount'] = count($items);
             $session->set(
                 self::$sessionPrefix.$resumption['token'],
                 array_merge(
                     $searchParams,
                     array(
-                        'starts' => $searchParams['starts'] + self::$countPerLoad,
-                        'ends'   => $searchParams['starts'] + self::$countPerLoad * 2,
+                        'starts' => $searchParams['starts'] + $this->countPerLoad,
+                        'ends'   => $searchParams['starts'] + $this->countPerLoad * 2,
                     )
                 )
             );
         }
         $resumption['starts'] = $searchParams['starts'];
-        $ends = $searchParams['starts'] + self::$countPerLoad - 1;
+        $ends = $searchParams['starts'] + $this->countPerLoad - 1;
         $resumption['ends'] = min(count($items) - 1, $ends);
         $resumption['totalCount'] = count($items);
         $resumption['items'] = $items;

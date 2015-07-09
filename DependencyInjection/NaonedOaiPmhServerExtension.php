@@ -22,6 +22,9 @@ class NaonedOaiPmhServerExtension extends Extension
     {
 
         $configuration = new Configuration();
+        // TODO, instad of beyond lines
+        // $config = $this->processConfiguration($configuration, $configs);
+
         $config = array();
         foreach ($configs as $subConfig) {
             $config = array_merge($config, $subConfig);
@@ -30,9 +33,18 @@ class NaonedOaiPmhServerExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
+        if (!isset($config['data_provider_service_name'])) {
+            throw new \InvalidArgumentException('The "data_provider_service_name" option must be set');
+        }
+
         $container->setParameter(
             'naoned.oaipmh_server.data_provider_service_name',
             $config['data_provider_service_name']
+        );
+
+        $container->setParameter(
+            'naoned.oaipmh_server.count_per_load',
+            isset($config['count_per_load']) ? $config['count_per_load'] : 50
         );
     }
 }

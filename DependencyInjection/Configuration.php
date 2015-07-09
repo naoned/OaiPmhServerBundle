@@ -20,6 +20,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('data_provider_service_name')
                     ->defaultValue('naoned.oaipmh.data_provider')
                 ->end()
+                ->scalarNode('count_per_load')
+                    ->defaultValue(50)
+                ->end()
             ->end()
         ;
 

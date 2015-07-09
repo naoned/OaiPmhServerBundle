@@ -2,6 +2,8 @@
 services:
     naoned.oaipmh.ruler:
         class: Naoned\OaiPmhServerBundle\OaiPmh\OaiPmhRuler
+        calls:
+            - [ setCountPerLoad, [ '%naoned.oaipmh_server.count_per_load%' ] ]
 
     naoned.oaipmh.twig.record_extension:
         class: Naoned\OaiPmhServerBundle\Twig\RecordExtension
