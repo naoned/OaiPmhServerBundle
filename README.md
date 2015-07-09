@@ -140,26 +140,31 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
     {
         return array(
             array(
+                'id'          => '1W1',
                 'title'       => 'Dummy content 1',
                 'description' => 'Some more dummy content',
                 'sets'        => array('seta', 'setb'),
             ),
             array(
+                'id'          => '1W2',
                 'title'       => 'Dummy content 2',
                 'description' => 'Some more dummy content',
                 'sets'        => array('seta'),
             ),
             array(
+                'id'          => '1W3',
                 'title'       => 'Dummy content 3',
                 'description' => 'Some more dummy content',
                 'sets'        => array('seta'),
             ),
             array(
+                'id'          => '1W4',
                 'title'       => 'Dummy content 4',
                 'description' => 'Some more dummy content',
                 'sets'        => array('setc'),
             ),
             array(
+                'id'          => '1W5',
                 'title'       => 'Dummy content 5',
                 'description' => 'Some more dummy content',
                 'sets'        => array('setd'),
@@ -206,7 +211,7 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
      */
     public static function getRecordId($record)
     {
-        return $record['rec_uuid'];
+        return $record['id'];
     }
 
     /**
@@ -216,7 +221,7 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
      */
     public static function getRecordUpdated($record)
     {
-        return $record['rec_updated'];
+        return '2015-01-01';
     }
 }
 
