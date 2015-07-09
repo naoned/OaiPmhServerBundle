@@ -54,12 +54,14 @@ naoned_oai_pmh_server:
 You can choose here route to your Oai-Pmh server
 
 
-## Define service
-
-In your own Bundle that manage data, add a service to expose data
-In file src/[YOUR_VENDOR]/[YOUR_BUNDLE]/Resources/config/services.yml
+Add to your services.yml
+In your own Bundle (that manage data), add a service to expose data
 ```yml
-i```
+    naoned.oaipmh.data_provider:
+        class: Naoned\VanaoBundle\Manager\OaiPmhDataProvider
+        calls:
+            - [ setContainer, [@service_container] ]
+```
 
 ## Create Data provider
 
