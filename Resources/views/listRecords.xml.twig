@@ -4,6 +4,7 @@
   <ListRecords>
     {% for position in resumption.starts..resumption.ends %}
       {% include 'NaonedOaiPmhServerBundle::record.xml.twig' with {record: resumption.items[position]} %}
+      {% flush %}
     {% endfor %}
     {% include 'NaonedOaiPmhServerBundle::resumptionToken.xml.twig' %}
   </ListRecords>
