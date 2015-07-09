@@ -58,7 +58,7 @@ Add to your services.yml
 In your own Bundle (that manage data), add a service to expose data
 ```yml
     naoned.oaipmh.data_provider:
-        class: Naoned\VanaoBundle\Manager\OaiPmhDataProvider
+        class: [YOUR_VENDOR]\[YOUR_BUNDLE]\[YOUR_PATH]\[YOUR_CLASS]
         calls:
             - [ setContainer, [@service_container] ]
 ```
