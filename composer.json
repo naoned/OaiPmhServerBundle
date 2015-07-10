@@ -1,5 +1,5 @@
 {
-    "name": "naoned/OaiPmhServerBundle",
+    "name": "naoned/oai-pmh-server-bundle",
     "description": "Bundle for Symfony2 that provides an Oai-Pmh server for your data",
     "keywords": ["oai-pmh", "oaipmh"],
     "license": "MIT",
