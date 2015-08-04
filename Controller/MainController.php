@@ -27,7 +27,11 @@ class MainController extends Controller
 
     public function indexAction()
     {
-        $verb = $this->get('request')->get('verb');
+        $this->allArgs = $this->getAllArguments();
+        if (!array_key_exists('verb', $this->allArgs)) {
+            throw new BadVerbException();
+        }
+        $verb = $this->allArgs['verb'];
         try {
             if (!in_array($verb, $this->availableVerbs)) {
                 throw new BadVerbException();
@@ -48,6 +52,14 @@ class MainController extends Controller
             }
             return $this->error($code, $e->getMessage());
         }
+    }
+
+    private function getAllArguments()
+    {
+        return array_merge(
+            $this->getRequest()->query->all(),
+            $this->getRequest()->request->all()
+        );
     }
 
     private function error($code, $message = '')
@@ -234,13 +246,5 @@ class MainController extends Controller
             throw new \Exception(sprintf("Class of service %s must implement %s", $service, 'DataProviderInterface'));
         }
         return $dataProvider;
-    }
-
-    private function getAllArguments()
-    {
-        return array_merge(
-            $this->getRequest()->query->all(),
-            $this->getRequest()->request->all()
-        );
     }
 }
