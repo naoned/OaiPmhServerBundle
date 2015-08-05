@@ -8,5 +8,10 @@
     "autoload": {
         "psr-0": {"Naoned\\OaiPmhServerBundle\\": ""}
     },
-    "target-dir" : "Naoned/OaiPmhServerBundle"
+    "target-dir" : "Naoned/OaiPmhServerBundle",
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/symfony": "~2.5.6",
+        "doctrine/common": "~2.5.0"
+    }
 }
