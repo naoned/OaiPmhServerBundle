@@ -52,7 +52,7 @@ interface DataProviderInterface
      * Get an array of [selection.id] => "set.title" for a all published OAI-PMH sets
      * @return array
      */
-    public static function dublinizeRecord($record);
+    public function dublinizeRecord($record);
 
     /**
      * Check if sets are supported by data provider

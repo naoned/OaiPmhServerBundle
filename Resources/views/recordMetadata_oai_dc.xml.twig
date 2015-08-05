@@ -19,7 +19,7 @@
       <dc:description>{{ record.dc_description }}</dc:description>
   {% endif %}
   {% if (record.dc_date is defined and record.dc_date) %}
-      <dc:date>{{ record.dc_date }}</dc:date>
+      <dc:date>{{ record.dc_date|date('Y-m-d') }}</dc:date>
   {% endif %}
   {% if (record.dc_coverage is defined and record.dc_coverage) %}
       <dc:coverage>{{ record.dc_coverage }}</dc:coverage>

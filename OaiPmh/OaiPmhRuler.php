@@ -87,6 +87,8 @@ class OaiPmhRuler
         $resumption['ends'] = min(count($items) - 1, $ends);
         $resumption['totalCount'] = count($items);
         $resumption['items'] = $items;
+        $resumption['isFirst'] = $resumption['starts'] == self::$defaultStarts;
+        $resumption['isLast'] = $resumption['ends'] == count($items) - 1;
 
         return $resumption;
     }
