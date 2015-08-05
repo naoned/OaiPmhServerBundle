@@ -66,10 +66,11 @@ class OaiPmhRuler
     {
         $resumption = array();
         $resumption['next'] = false;
-        if ($searchParams['ends'] < count($items) + 1) {
+        $itemMax = count($items) - 1;
+        if ($searchParams['ends'] < $itemMax) {
             $resumption['next']       = true;
             $resumption['token']      = $this->generateResumptionToken();
-            $resumption['expiresOn']  = time()+604800;
+            $resumption['expiresOn']  = time() + 604800;
             $resumption['totalCount'] = count($items);
             $session->set(
                 self::$sessionPrefix.$resumption['token'],
@@ -84,11 +85,11 @@ class OaiPmhRuler
         }
         $resumption['starts'] = $searchParams['starts'];
         $ends = $searchParams['starts'] + $this->countPerLoad - 1;
-        $resumption['ends'] = min(count($items) - 1, $ends);
+        $resumption['ends'] = min($itemMax, $ends);
         $resumption['totalCount'] = count($items);
         $resumption['items'] = $items;
         $resumption['isFirst'] = $resumption['starts'] == self::$defaultStarts;
-        $resumption['isLast'] = $resumption['ends'] == count($items) - 1;
+        $resumption['isLast'] = $resumption['ends'] == $itemMax;
 
         return $resumption;
     }

@@ -32,7 +32,7 @@ interface DataProviderInterface
      * @param  \DataTime|null $until    Date of last change «until»
      * @return array|ArrayObject        List of items
      */
-    public function getRecords($set = null, \DateTime $from = null, \DataTime $until = null);
+    public function getRecords($set = null, \DateTime $from = null, \DateTime $until = null);
 
     /**
      * Tell me, this «record», in which «set is it ?
