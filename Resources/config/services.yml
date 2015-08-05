@@ -11,3 +11,7 @@ services:
             - [ setDataProvider, [ @naoned.oaipmh.data_provider ] ]
         tags:
             - { name: twig.extension }
+
+    naoned.oaipmh.cache:
+        class: Doctrine\Common\Cache\FilesystemCache
+        arguments: ["@=service('kernel').getCacheDir()"]

@@ -12,25 +12,26 @@ use Naoned\OaiPmhServerBundle\Exception\IdDoesNotExistException;
 
 class OaiPmhRuler
 {
-    private static $defaultStarts = 0;
-    public $countPerLoad;
-    // This server currently supports only oai_dc Data format
+    const CACHE_PREFIX = 'oaipmh_';
+    const DEFAULT_STARTS = 0;
+
+    private $countPerLoad;
     private static $availableMetadata = array(
+        // This server currently supports only oai_dc Data format
         'oai_dc' => array(
            'schema'            => 'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
            'metadataNamespace' => 'http://www.openarchives.org/OAI/2.0/oai_dc/',
         )
     );
-    private static $sessionPrefix = 'oaipmh_';
 
     public function setCountPerLoad($countPerLoad)
     {
         $this->countPerLoad = $countPerLoad;
     }
 
-    public function getSessionPrefix()
+    private static function getcacheKey($token)
     {
-        return $this->sessionPrefix;
+        return self::CACHE_PREFIX.$token;
     }
 
     public function getAvailableMetadata()
@@ -38,20 +39,20 @@ class OaiPmhRuler
         return self::$availableMetadata;
     }
 
-    public function getSearchParams($queryParams, $session)
+    public function getSearchParams($queryParams, $cache)
     {
         if (array_key_exists('resumptionToken', $queryParams)
             && $resumptionToken = $queryParams['resumptionToken']
         ) {
-            $sessionData = $session->get(self::$sessionPrefix.$resumptionToken);
-            if (!$sessionData || $sessionData['verb'] != $queryParams['verb']) {
+            $cacheData = $cache->fetch($this->getcacheKey($resumptionToken));
+            if (!$cacheData || $cacheData['verb'] != $queryParams['verb']) {
                 throw new badResumptionTokenException();
             }
-            $searchParams = $sessionData;
+            $searchParams = $cacheData;
         } else {
             $searchParams           = $queryParams;
-            $searchParams['starts'] = self::$defaultStarts;
-            $searchParams['ends']   = self::$defaultStarts + $this->countPerLoad - 1;
+            $searchParams['starts'] = self::DEFAULT_STARTS;
+            $searchParams['ends']   = self::DEFAULT_STARTS + $this->countPerLoad - 1;
         }
 
         return $searchParams;
@@ -62,7 +63,7 @@ class OaiPmhRuler
         return uniqid();
     }
 
-    public function getResumption($items, $searchParams, $session)
+    public function getResumption($items, $searchParams, $cache)
     {
         $resumption = array();
         $resumption['next'] = false;
@@ -72,8 +73,8 @@ class OaiPmhRuler
             $resumption['token']      = $this->generateResumptionToken();
             $resumption['expiresOn']  = time() + 604800;
             $resumption['totalCount'] = count($items);
-            $session->set(
-                self::$sessionPrefix.$resumption['token'],
+            $cache->save(
+                $this->getcacheKey($resumption['token']),
                 array_merge(
                     $searchParams,
                     array(
@@ -88,7 +89,7 @@ class OaiPmhRuler
         $resumption['ends'] = min($itemMax, $ends);
         $resumption['totalCount'] = count($items);
         $resumption['items'] = $items;
-        $resumption['isFirst'] = $resumption['starts'] == self::$defaultStarts;
+        $resumption['isFirst'] = $resumption['starts'] == self::DEFAULT_STARTS;
         $resumption['isLast'] = $resumption['ends'] == $itemMax;
 
         return $resumption;

@@ -133,7 +133,7 @@ class MainController extends Controller
         $dataProvider = $this->getDataProvider();
         $searchParams = $oaiPmhRuler->getSearchParams(
             $this->queryParams,
-            $this->get('session')
+            $this->get('naoned.oaipmh.cache')
         );
         if (isset($searchParams['set']) && !$dataProvider->checkSupportSets()) {
             throw new NoSetHierarchyException();
@@ -152,7 +152,7 @@ class MainController extends Controller
         $resumption = $oaiPmhRuler->getResumption(
             $records,
             $searchParams,
-            $this->get('session')
+            $this->get('naoned.oaipmh.cache')
         );
         return $this->render(
             'NaonedOaiPmhServerBundle::listRecords.xml.twig',
@@ -210,12 +210,12 @@ class MainController extends Controller
         }
         $searchParams = $oaiPmhRuler->getSearchParams(
             $this->queryParams,
-            $this->get('session')
+            $this->get('naoned.oaipmh.cache')
         );
         $resumption = $oaiPmhRuler->getResumption(
             $sets,
             $searchParams,
-            $this->get('session')
+            $this->get('naoned.oaipmh.cache')
         );
         return $this->render(
             'NaonedOaiPmhServerBundle::listSets.xml.twig',
