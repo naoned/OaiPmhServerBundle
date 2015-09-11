@@ -11,6 +11,7 @@
     "target-dir" : "Naoned/OaiPmhServerBundle",
     "require": {
         "php": ">=5.4",
-        "symfony/symfony": "~2.7"
+        "symfony/symfony": "~2.7",
+        "doctrine/common": "~2"
     }
 }
