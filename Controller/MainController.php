@@ -138,10 +138,12 @@ class MainController extends Controller
         if (isset($searchParams['set']) && !$dataProvider->checkSupportSets()) {
             throw new NoSetHierarchyException();
         }
+        $from = isset($searchParams['from']) ? $oaiPmhRuler->checkGranularity($searchParams['from']) : null;
+        $until = isset($searchParams['until']) ? $oaiPmhRuler->checkGranularity($searchParams['until']) : null;
         $records = $dataProvider->getRecords(
             isset($searchParams['set']) ? $searchParams['set'] : null,
-            isset($searchParams['from']) ? new \DateTime($searchParams['from']) : null,
-            isset($searchParams['until']) ? new \DateTime($searchParams['until']) : null
+            $from,
+            $until
         );
         if (!(is_array($records) || $records instanceof \ArrayObject)) {
             throw new Exception('Implementation error: Records must be an array or an arrayObject');

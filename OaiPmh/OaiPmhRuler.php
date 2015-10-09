@@ -143,4 +143,12 @@ class OaiPmhRuler
             throw new BadArgumentException('The request includes illegal arguments');
         }
     }
+
+    public static function checkGranularity($date)
+    {
+        if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date)) {
+            throw new BadArgumentException('Date boundaries is/are not correct');
+        }
+        return new \DateTime($date);
+    }
 }
