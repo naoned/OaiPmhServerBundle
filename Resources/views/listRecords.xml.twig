@@ -3,7 +3,11 @@
 {% block content %}
   <ListRecords>
     {% for position in resumption.starts..resumption.ends %}
-      {% include 'NaonedOaiPmhServerBundle::record.xml.twig' with {record: resumption.items[position]} %}
+      {% if headersOnly is not defined or not headersOnly %}
+        {% include 'NaonedOaiPmhServerBundle::record.xml.twig' with {record: resumption.items[position]} %}
+      {% else %}
+        {% include 'NaonedOaiPmhServerBundle::recordHeader.xml.twig' with {record: resumption.items[position]}  %}
+      {% endif %}
     {% endfor %}
     {% include 'NaonedOaiPmhServerBundle::resumptionToken.xml.twig' %}
   </ListRecords>

@@ -1,14 +1,6 @@
 <record>
-  <header>
-    <identifier>{{ get_record_id(record) }}</identifier>
-    <datestamp>{{ get_record_updated(record)|date('Y-m-d') }}</datestamp>
-    {% for setName in get_record_sets(record) %}
-      <setSpec>{{ setName }}</setSpec>
-    {% endfor %}
-  </header>
-  {% if headersOnly is not defined or not headersOnly %}
-    <metadata>
-      {% include 'NaonedOaiPmhServerBundle::recordMetadata_' ~ metadataPrefix ~ '.xml.twig' %}
-    </metadata>
-  {% endif %}
+  {% include 'NaonedOaiPmhServerBundle::recordHeader.xml.twig' %}
+  <metadata>
+    {% include 'NaonedOaiPmhServerBundle::recordMetadata_' ~ metadataPrefix ~ '.xml.twig' %}
+  </metadata>
 </record>
