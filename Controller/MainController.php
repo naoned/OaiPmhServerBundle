@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Naoned\OaiPmhServerBundle\Exception\OaiPmhServerException;
 use Naoned\OaiPmhServerBundle\Exception\BadVerbException;
-use Naoned\OaiPmhServerBundle\Exception\BadArgumentException;
 use Naoned\OaiPmhServerBundle\Exception\NoRecordsMatchException;
 use Naoned\OaiPmhServerBundle\Exception\NoSetHierarchyException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -28,28 +27,14 @@ class MainController extends Controller
 
     public function indexAction()
     {
-        // Test arguments unicity
         try {
-            $queryParts = explode('&', $this->getRequest()->getQueryString());
-            $params = array();
-            foreach ($queryParts as $param) {
-                list($name, $value) = explode('=', $param, 2);
-                if (isset($params[$name])) {
-                    throw new BadArgumentException();
-                }
-                $params[$name] = $value;
-            }
-            unset($params);
-        } catch (\Exception $e) {
-            return $this->error('badArgument', $e->getMessage());
-        }
+            $this->get('naoned.oaipmh.ruler')->checkParamsUnicity($this->getRequest()->getQueryString());
 
-        $this->allArgs = $this->getAllArguments();
-        if (!array_key_exists('verb', $this->allArgs)) {
-            throw new BadVerbException();
-        }
-        $verb = $this->allArgs['verb'];
-        try {
+            $this->allArgs = $this->getAllArguments();
+            if (!array_key_exists('verb', $this->allArgs)) {
+                throw new BadVerbException();
+            }
+            $verb = $this->allArgs['verb'];
             if (!in_array($verb, $this->availableVerbs)) {
                 throw new BadVerbException();
             }

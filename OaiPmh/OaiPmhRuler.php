@@ -151,4 +151,19 @@ class OaiPmhRuler
         }
         return new \DateTime($date);
     }
+
+    // Test arguments unicity
+    public static function checkParamsUnicity($queryString)
+    {
+        $queryParts = explode('&', $queryString);
+        $params = array();
+        foreach ($queryParts as $param) {
+            list($name, $value) = explode('=', $param, 2);
+            if (isset($params[$name])) {
+                throw new BadArgumentException('The request includes a repeated argument.');
+            }
+            $params[$name] = $value;
+        }
+        unset($params);
+    }
 }
