@@ -7,13 +7,15 @@
   <responseDate>{{ "now"|date('Y-m-d\\TH:i:sP') }}</responseDate>
   <request
     {% if (queryParams.verb is defined and queryParams.verb) %}verb="{{ queryParams.verb }}"{% endif %}
-    {% if (queryParams.metadataPrefix is defined and queryParams.metadataPrefix) %}metadataPrefix="{{ queryParams.metadataPrefix }}"{% endif %}
-    {% if (queryParams.set is defined and queryParams.set) %}set="{{ queryParams.set }}"{% endif %}
-    {% if (queryParams.from is defined and queryParams.from) %}from="{{ queryParams.from }}"{% endif %}
-    {% if (queryParams.until is defined and queryParams.until) %}until="{{ queryParams.until }}"{% endif %}
-    {% if (queryParams.identifier is defined and queryParams.identifier) %}identifier="{{ queryParams.identifier }}"{% endif %}
-    {% if (queryParams.resumptionToken is defined and queryParams.resumptionToken) %}resumptionToken="{{ queryParams.resumptionToken }}"{% endif %}
-  >
+    {% block requestParams %}
+        {% if (queryParams.metadataPrefix is defined and queryParams.metadataPrefix) %}metadataPrefix="{{ queryParams.metadataPrefix }}"{% endif %}
+        {% if (queryParams.set is defined and queryParams.set) %}set="{{ queryParams.set }}"{% endif %}
+        {% if (queryParams.from is defined and queryParams.from) %}from="{{ queryParams.from }}"{% endif %}
+        {% if (queryParams.until is defined and queryParams.until) %}until="{{ queryParams.until }}"{% endif %}
+        {% if (queryParams.identifier is defined and queryParams.identifier) %}identifier="{{ queryParams.identifier }}"{% endif %}
+        {% if (queryParams.resumptionToken is defined and queryParams.resumptionToken) %}resumptionToken="{{ queryParams.resumptionToken }}"{% endif %}
+    {% endblock %}
+    >
     {{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}
   </request>
   {% block content %}

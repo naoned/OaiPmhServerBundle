@@ -116,8 +116,8 @@ class MainController extends Controller
             )
         );
     }
-
-    private function listRecordsVerb($headersOnly = false)
+    
+    private function listCommon()
     {
         $oaiPmhRuler = $this->get('naoned.oaipmh.ruler');
         $this->queryParams = $oaiPmhRuler->retrieveAndCheckArguments(
@@ -156,20 +156,28 @@ class MainController extends Controller
             $searchParams,
             $this->get('naoned.oaipmh.cache')
         );
+
+        return array(
+            'resumption'     => $resumption,
+            'metadataPrefix' => $searchParams['metadataPrefix'],
+            'queryParams'    => $this->queryParams,
+        );
+    }
+
+    private function listRecordsVerb()
+    {
         return $this->render(
             'NaonedOaiPmhServerBundle::listRecords.xml.twig',
-            array(
-                'headersOnly'    => $headersOnly,
-                'resumption'     => $resumption,
-                'metadataPrefix' => $searchParams['metadataPrefix'],
-                'queryParams'    => $this->queryParams,
-            )
+            $this->listCommon()
         );
     }
 
     private function listIdentifiersVerb()
     {
-        return $this->listRecordsVerb(true);
+        return $this->render(
+            'NaonedOaiPmhServerBundle::listIdentifiers.xml.twig',
+            $this->listCommon()
+        );
     }
 
     private function listMetadataFormatsVerb()

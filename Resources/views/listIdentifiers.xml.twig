@@ -1,10 +1,10 @@
 {% extends 'NaonedOaiPmhServerBundle::template.xml.twig' %}
 
 {% block content %}
-<ListRecords>
+<ListIdentifiers>
     {% for position in resumption.starts..resumption.ends %}
-        {% include 'NaonedOaiPmhServerBundle::record.xml.twig' with {record: resumption.items[position]} %}
+        {% include 'NaonedOaiPmhServerBundle::recordHeader.xml.twig' with {record: resumption.items[position]}  %}
     {% endfor %}
     {% include 'NaonedOaiPmhServerBundle::resumptionToken.xml.twig' %}
-</ListRecords>
+</ListIdentifiers>
 {% endblock %}
