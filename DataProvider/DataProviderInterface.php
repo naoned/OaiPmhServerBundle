@@ -20,8 +20,8 @@ interface DataProviderInterface
     public function getEarliestDatestamp();
 
     /**
-     * must return an array of arrays with keys «identifier» and «name»
-     * @return array List of all sets, with identifier and name
+     * @param  string $identifier [description]
+     * @return array
      */
     public function getRecord($id);
 
@@ -35,22 +35,22 @@ interface DataProviderInterface
     public function getRecords($set = null, \DateTime $from = null, \DateTime $until = null);
 
     /**
-     * Tell me, this «record», in which «set is it ?
+     * must return an array of arrays with keys «identifier» and «name»
+     * @return array List of all sets, with identifier and name
+     */
+    public function getSets();
+
+    /**
+     * Tell me, this «record», in which «set» is it ?
      * @param  any   $record An item of elements furnished by getRecords method
      * @return array         List of sets, the record belong to
      */
-    public function getSets();
+    public function getSetsForRecord($record);
 
     /**
      * Transform the provided record in an array with Dublin Core, «dc_title»  style
      * @param  any   $record An item of elements furnished by getRecords method
      * @return array         Dublin core data
-     */
-    public function getSetsForRecord($record);
-
-    /**
-     * Get an array of [selection.id] => "set.title" for a all published OAI-PMH sets
-     * @return array
      */
     public function dublinizeRecord($record);
 

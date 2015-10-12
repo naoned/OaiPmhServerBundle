@@ -8,10 +8,15 @@ This is an Oai-Pmh server only, you have to plug your own data provider.
 ## Features
 
 * Compliant with official Oai-Pmh tech spec : http://www.openarchives.org/OAI/openarchivesprotocol.html
+* Sucessfully pass http://re.cs.uct.ac.za/ test
 * Automated resumption in large list, with arrays or ArrayObject
-* On fly XML generation, if you provide Records in a real-time data-accesing ArrayObject
-* Only supports oai_dc metadata Format until now
+* On the fly XML generation, if you provide Records in a real-time data-accesing ArrayObject
 * Parametrable resumption items-per-page (default at 50)
+
+## Limitations
+
+* Does not supports resumption (by token) on set lists
+* More data formats (currently supports Dublin Core only)
 
 ## Installation
 
@@ -48,7 +53,7 @@ Add to your routing.yml
 ```yml
 naoned_oai_pmh_server:
     resource: "@NaonedOaiPmhServerBundle/Resources/config/routing.yml"
-    prefix:   /OaiPmh
+    prefix:   /oaipmh
 
 ```
 You can choose here route to your Oai-Pmh server
@@ -147,37 +152,42 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
                 'identifier'  => '1W1',
                 'title'       => 'Dummy content 1',
                 'description' => 'Some more dummy content',
+                'last_change' => '2015-10-12',
                 'sets'        => array('seta', 'setb'),
             ),
             array(
                 'identifier'  => '1W2',
                 'title'       => 'Dummy content 2',
                 'description' => 'Some more dummy content',
+                'last_change' => '2015-10-12',
                 'sets'        => array('seta'),
             ),
             array(
                 'identifier'  => '1W3',
                 'title'       => 'Dummy content 3',
                 'description' => 'Some more dummy content',
+                'last_change' => '2015-10-12',
                 'sets'        => array('seta'),
             ),
             array(
                 'identifier'  => '1W4',
                 'title'       => 'Dummy content 4',
                 'description' => 'Some more dummy content',
+                'last_change' => '2015-10-12',
                 'sets'        => array('setc'),
             ),
             array(
                 'identifier'  => '1W5',
                 'title'       => 'Dummy content 5',
                 'description' => 'Some more dummy content',
+                'last_change' => '2015-10-12',
                 'sets'        => array('setd'),
             ),
         );
     }
 
     /**
-     * Tell me, this «record», in which «set is it ?
+     * Tell me, this «record», in which «set» is it ?
      * @param  any   $record An item of elements furnished by getRecords method
      * @return array         List of sets, the record belong to
      */
@@ -226,7 +236,7 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
      */
     public static function getRecordUpdated($record)
     {
-        return '2015-01-01';
+        return $record['last_change'];
     }
 }
 
