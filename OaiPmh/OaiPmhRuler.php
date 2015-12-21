@@ -4,6 +4,7 @@ namespace Naoned\OaiPmhServerBundle\OaiPmh;
 
 use Naoned\OaiPmhServerBundle\Exception\OaiPmhServerException;
 use Naoned\OaiPmhServerBundle\Exception\BadArgumentException;
+use Naoned\OaiPmhServerBundle\Exception\BadVerbException;
 use Naoned\OaiPmhServerBundle\Exception\BadResumptionTokenException;
 use Naoned\OaiPmhServerBundle\Exception\CannotDisseminateFormatException;
 
@@ -111,7 +112,6 @@ class OaiPmhRuler
     ) {
         $found = false;
         $queryParams = array();
-        $queryParams['verb'] = $allArguments['verb'];
         foreach ($exclusive as $name) {
             if (array_key_exists($name, $allArguments)) {
                 $queryParams[$name] = $allArguments[$name];
@@ -155,14 +155,21 @@ class OaiPmhRuler
     // Test arguments unicity
     public static function checkParamsUnicity($queryString)
     {
+        if (!$queryString) {
+            return;
+        }
         $queryParts = explode('&', $queryString);
         $params = array();
         foreach ($queryParts as $param) {
-            list($name, $value) = explode('=', $param, 2);
+            if (strpos('=', $param)) {
+                $name = explode('=', $param, 2)[0];
+            } else {
+                $name = $param;
+            }
             if (isset($params[$name])) {
                 throw new BadArgumentException('The request includes a repeated argument.');
             }
-            $params[$name] = $value;
+            $params[$name] = true;
         }
         unset($params);
     }

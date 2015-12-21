@@ -32,11 +32,11 @@ class MainController extends Controller
 
             $this->allArgs = $this->getAllArguments();
             if (!array_key_exists('verb', $this->allArgs)) {
-                throw new BadVerbException();
+                throw new BadVerbException('The verb argument is missing');
             }
             $verb = $this->allArgs['verb'];
             if (!in_array($verb, $this->availableVerbs)) {
-                throw new BadVerbException();
+                throw new BadVerbException('Value of the verb argument is not a legal OAI-PMH verb.');
             }
             $methodName = $verb.'Verb';
             return $this->$methodName();

@@ -1,68 +1,97 @@
 <?php
 
-namespace Tests\OaiPmh;
+namespace Naoned\OaiPmhServerBundle\Tests\OaiPmh;
 
 use Naoned\OaiPmhServerBundle\OaiPmh\OaiPmhRuler;
 
-class OaiPmhRulerTests
+class OaiPmhRulerTests extends \PHPUnit_Framework_TestCase
 {
-    public function testIndex()
+    // Requiered paramters
+    public function testRequiredParams()
     {
         $ruler = new OaiPmhRuler();
 
-        // Requiered paramters
         $args = $ruler->retrieveAndCheckArguments(
             array('req' => 1),
             array('req')
         );
-        $this->assertEqual($args, array('req' => 1));
+        $this->assertEquals($args, array('req' => 1));
 
-        $this->setExpectedException('BadArgumentException');
+        $this->setExpectedException('Naoned\OaiPmhServerBundle\Exception\BadArgumentException');
         $ruler->retrieveAndCheckArguments(
             array('opt' => 1),
             array('req')
         );
 
+    }
+
+    // Optionnal paramters
+    public function testOptionnalParams()
+    {
+        $ruler = new OaiPmhRuler();
+
         // Optional paramters
-        $ruler->retrieveAndCheckArguments(
+        $args = $ruler->retrieveAndCheckArguments(
             array('opt' => 1),
             array(),
             array('opt')
         );
-        $this->assertEqual($args, array('opt' => 1));
+        $this->assertEquals($args, array('opt' => 1));
 
-        $ruler->retrieveAndCheckArguments(
+        $args = $ruler->retrieveAndCheckArguments(
             array(),
             array(),
             array('opt')
         );
-        $this->assertEqual($args, array());
+        $this->assertEquals($args, array());
 
-        // Exclusive paramters
-        $ruler->retrieveAndCheckArguments(
+    }
+
+    // Exclusive paramters
+    public function testExclusiveParams()
+    {
+        $ruler = new OaiPmhRuler();
+
+        $args = $ruler->retrieveAndCheckArguments(
             array('exclusive' => 1),
             array(),
             array(),
             array('exclusive')
         );
-        $this->assertEqual($args, array('exclusive' => 1));
+        $this->assertEquals($args, array('exclusive' => 1));
 
-        $this->setExpectedException('BadArgumentException');
+        $this->setExpectedException('Naoned\OaiPmhServerBundle\Exception\BadArgumentException');
         $ruler->retrieveAndCheckArguments(
             array('exclusive' => 1, 'other' => 1),
             array(),
             array(),
             array('exclusive')
         );
+    }
 
-        // Unexpected paramters
-        $this->setExpectedException('BadArgumentException');
+    // Unexpected paramters
+    public function testUnexpectedParams()
+    {
+        $ruler = new OaiPmhRuler();
+
+        $this->setExpectedException('Naoned\OaiPmhServerBundle\Exception\BadArgumentException');
         $ruler->retrieveAndCheckArguments(
             array('unexpected' => 1)
         );
+    }
 
-        // Check unicity of parameters
-        $this->setExpectedException('BadArgumentException');
+    // Check unicity of parameters
+    public function testUnicityParams()
+    {
+        $ruler = new OaiPmhRuler();
+
+        $this->setExpectedException('Naoned\OaiPmhServerBundle\Exception\BadArgumentException');
         $ruler->checkParamsUnicity('param1=1&parma1=2');
+
+        $this->setExpectedException('Naoned\OaiPmhServerBundle\Exception\BadArgumentException');
+        $ruler->checkParamsUnicity('param1&param1');
+
+        $return = $ruler->checkParamsUnicity('');
+        $this->assertEquals($return, null);
     }
 }
