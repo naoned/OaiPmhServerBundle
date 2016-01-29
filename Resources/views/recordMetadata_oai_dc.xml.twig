@@ -7,45 +7,45 @@
 >
   {% set record = dublinize_record(record) %}
   {% if (record.dc_title is defined and record.dc_title) %}
-      <dc:title>{{ record.dc_title }}</dc:title>
+      <dc:title>{{ record.dc_title|striptags }}</dc:title>
   {% endif %}
   {% if (record.dc_creator is defined and record.dc_creator) %}
-      <dc:creator>{{ record.dc_creator }}</dc:creator>
+      <dc:creator>{{ record.dc_creator|striptags }}</dc:creator>
   {% endif %}
   {% if (record.dc_subject is defined and record.dc_subject) %}
-      <dc:subject>{{ record.dc_subject }}</dc:subject>
+      <dc:subject>{{ record.dc_subject|striptags }}</dc:subject>
   {% endif %}
   {% if (record.dc_description is defined and record.dc_description) %}
-      <dc:description>{{ record.dc_description }}</dc:description>
+      <dc:description>{{ record.dc_description|striptags }}</dc:description>
   {% endif %}
   {% if (record.dc_date is defined and record.dc_date) %}
-      <dc:date>{{ record.dc_date }}</dc:date>
+      <dc:date>{{ record.dc_date|striptags }}</dc:date>
   {% endif %}
   {% if (record.dc_coverage is defined and record.dc_coverage) %}
-      <dc:coverage>{{ record.dc_coverage }}</dc:coverage>
+      <dc:coverage>{{ record.dc_coverage|striptags }}</dc:coverage>
   {% endif %}
   {% if (record.dc_type is defined and record.dc_type) %}
-      <dc:type>{{ record.dc_type }}</dc:type>
+      <dc:type>{{ record.dc_type|striptags }}</dc:type>
   {% endif %}
   {% if (record.dc_relation is defined and record.dc_relation) %}
-      <dc:relation>{{ record.dc_relation }}</dc:relation>
+      <dc:relation>{{ record.dc_relation|striptags }}</dc:relation>
   {% endif %}
   {% if (record.dc_source is defined and record.dc_source) %}
-      <dc:source>{{ record.dc_source }}</dc:source>
+      <dc:source>{{ record.dc_source|striptags }}</dc:source>
   {% endif %}
   {% if (record.dc_rights is defined and record.dc_rights) %}
-      <dc:rights>{{ record.dc_rights }}</dc:rights>
+      <dc:rights>{{ record.dc_rights|striptags }}</dc:rights>
   {% endif %}
   {% if (record.dc_format is defined and record.dc_format) %}
-      <dc:format>{{ record.dc_format }}</dc:format>
+      <dc:format>{{ record.dc_format|striptags }}</dc:format>
   {% endif %}
   {% if (record.dc_identifier is defined and record.dc_identifier) %}
-      <dc:identifier>{{ record.dc_identifier }}</dc:identifier>
+      <dc:identifier>{{ record.dc_identifier|striptags }}</dc:identifier>
   {% endif %}
   {% if (record.dc_language is defined and record.dc_language) %}
-      <dc:language>{{ record.dc_language }}</dc:language>
+      <dc:language>{{ record.dc_language|striptags }}</dc:language>
   {% endif %}
   {% if (record.dc_publisher is defined and record.dc_publisher) %}
-      <dc:publisher>{{ record.dc_publisher }}</dc:publisher>
+      <dc:publisher>{{ record.dc_publisher|striptags }}</dc:publisher>
   {% endif %}
 </oai_dc:dc>
