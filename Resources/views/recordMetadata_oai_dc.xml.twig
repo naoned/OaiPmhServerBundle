@@ -30,6 +30,10 @@
   {% if (dc.dc_relation is defined and dc.dc_relation) %}
       <dc:relation>{{ dc.dc_relation|striptags }}</dc:relation>
   {% endif %}
+  {% set thumb = get_thumb(record) %}
+  {% if (thumb) %}
+      <dc:relation>{% trans %}vignette{% endtrans %} : {{ thumb }}</dc:relation>
+  {% endif %}
   {% if (dc.dc_source is defined and dc.dc_source) %}
       <dc:source>{{ dc.dc_source|striptags }}</dc:source>
   {% endif %}

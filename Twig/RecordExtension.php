@@ -15,6 +15,7 @@ class RecordExtension extends \Twig_Extension
             'dublinize_record'   => new \Twig_Function_Method($this, 'dublinizeRecord'),
             'get_record_id'      => new \Twig_Function_Method($this, 'getRecordId'),
             'get_record_updated' => new \Twig_Function_Method($this, 'getRecordUpdated'),
+            'get_thumb'          => new \Twig_Function_Method($this, 'getThumb'),
         );
     }
 
@@ -41,6 +42,11 @@ class RecordExtension extends \Twig_Extension
     public function getRecordUpdated($record)
     {
         return $this->dataProvider->getRecordUpdated($record);
+    }
+
+    public function getThumb($record)
+    {
+        return $this->dataProvider->getThumb($record);
     }
 
     // for a service we need a name
