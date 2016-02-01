@@ -5,47 +5,47 @@
    xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/
    http://www.openarchives.org/OAI/2.0/oai_dc.xsd"
 >
-  {% set record = dublinize_record(record) %}
-  {% if (record.dc_title is defined and record.dc_title) %}
-      <dc:title>{{ record.dc_title|striptags }}</dc:title>
+  {% set dc = dublinize_record(record) %}
+  {% if (dc.dc_title is defined and dc.dc_title) %}
+      <dc:title>{{ dc.dc_title|striptags }}</dc:title>
   {% endif %}
-  {% if (record.dc_creator is defined and record.dc_creator) %}
-      <dc:creator>{{ record.dc_creator|striptags }}</dc:creator>
+  {% if (dc.dc_creator is defined and dc.dc_creator) %}
+      <dc:creator>{{ dc.dc_creator|striptags }}</dc:creator>
   {% endif %}
-  {% if (record.dc_subject is defined and record.dc_subject) %}
-      <dc:subject>{{ record.dc_subject|striptags }}</dc:subject>
+  {% if (dc.dc_subject is defined and dc.dc_subject) %}
+      <dc:subject>{{ dc.dc_subject|striptags }}</dc:subject>
   {% endif %}
-  {% if (record.dc_description is defined and record.dc_description) %}
-      <dc:description>{{ record.dc_description|striptags }}</dc:description>
+  {% if (dc.dc_description is defined and dc.dc_description) %}
+      <dc:description>{{ dc.dc_description|striptags }}</dc:description>
   {% endif %}
-  {% if (record.dc_date is defined and record.dc_date) %}
-      <dc:date>{{ record.dc_date|striptags }}</dc:date>
+  {% if (dc.dc_date is defined and dc.dc_date) %}
+      <dc:date>{{ dc.dc_date|striptags }}</dc:date>
   {% endif %}
-  {% if (record.dc_coverage is defined and record.dc_coverage) %}
-      <dc:coverage>{{ record.dc_coverage|striptags }}</dc:coverage>
+  {% if (dc.dc_coverage is defined and dc.dc_coverage) %}
+      <dc:coverage>{{ dc.dc_coverage|striptags }}</dc:coverage>
   {% endif %}
-  {% if (record.dc_type is defined and record.dc_type) %}
-      <dc:type>{{ record.dc_type|striptags }}</dc:type>
+  {% if (dc.dc_type is defined and dc.dc_type) %}
+      <dc:type>{{ dc.dc_type|striptags }}</dc:type>
   {% endif %}
-  {% if (record.dc_relation is defined and record.dc_relation) %}
-      <dc:relation>{{ record.dc_relation|striptags }}</dc:relation>
+  {% if (dc.dc_relation is defined and dc.dc_relation) %}
+      <dc:relation>{{ dc.dc_relation|striptags }}</dc:relation>
   {% endif %}
-  {% if (record.dc_source is defined and record.dc_source) %}
-      <dc:source>{{ record.dc_source|striptags }}</dc:source>
+  {% if (dc.dc_source is defined and dc.dc_source) %}
+      <dc:source>{{ dc.dc_source|striptags }}</dc:source>
   {% endif %}
-  {% if (record.dc_rights is defined and record.dc_rights) %}
-      <dc:rights>{{ record.dc_rights|striptags }}</dc:rights>
+  {% if (dc.dc_rights is defined and dc.dc_rights) %}
+      <dc:rights>{{ dc.dc_rights|striptags }}</dc:rights>
   {% endif %}
-  {% if (record.dc_format is defined and record.dc_format) %}
-      <dc:format>{{ record.dc_format|striptags }}</dc:format>
+  {% if (dc.dc_format is defined and dc.dc_format) %}
+      <dc:format>{{ dc.dc_format|striptags }}</dc:format>
   {% endif %}
-  {% if (record.dc_identifier is defined and record.dc_identifier) %}
-      <dc:identifier>{{ record.dc_identifier|striptags }}</dc:identifier>
+  {% if (dc.dc_identifier is defined and dc.dc_identifier) %}
+      <dc:identifier>{{ dc.dc_identifier|striptags }}</dc:identifier>
   {% endif %}
-  {% if (record.dc_language is defined and record.dc_language) %}
-      <dc:language>{{ record.dc_language|striptags }}</dc:language>
+  {% if (dc.dc_language is defined and dc.dc_language) %}
+      <dc:language>{{ dc.dc_language|striptags }}</dc:language>
   {% endif %}
-  {% if (record.dc_publisher is defined and record.dc_publisher) %}
-      <dc:publisher>{{ record.dc_publisher|striptags }}</dc:publisher>
+  {% if (dc.dc_publisher is defined and dc.dc_publisher) %}
+      <dc:publisher>{{ dc.dc_publisher|striptags }}</dc:publisher>
   {% endif %}
 </oai_dc:dc>
