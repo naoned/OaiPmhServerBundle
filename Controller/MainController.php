@@ -242,6 +242,10 @@ class MainController extends Controller
 
     private function retrieveRecord($id)
     {
+        // Extract relevant identifier part
+        $parts = explode(':', $id);
+        $id    = end($parts);
+
         $dataProvider = $this->getDataProvider();
         $record = $dataProvider->getRecord($id);
         if (!$record) {
