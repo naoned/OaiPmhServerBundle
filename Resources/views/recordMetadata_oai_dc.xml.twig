@@ -1,3 +1,16 @@
+{% macro dc_value(dc, key) %}
+  {% if (dc['dc_'~key] is defined and dc['dc_'~key]) %}
+    {% if dc['dc_'~key] is iterable %}
+      {% for value in dc['dc_'~key] %}
+        <dc:{{ key }}>{{ value|striptags }}</dc:{{ key }}>
+      {% endfor %}
+    {% else %}
+      <dc:{{ key }}>{{ dc['dc_'~key]|striptags }}</dc:{{ key }}>
+    {% endif %}
+  {% endif %}
+{% endmacro %}
+
+{% set dc = dublinize_record(record) %}
 <oai_dc:dc
    xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -5,51 +18,22 @@
    xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/
    http://www.openarchives.org/OAI/2.0/oai_dc.xsd"
 >
-  {% set dc = dublinize_record(record) %}
-  {% if (dc.dc_title is defined and dc.dc_title) %}
-      <dc:title>{{ dc.dc_title|striptags }}</dc:title>
-  {% endif %}
-  {% if (dc.dc_creator is defined and dc.dc_creator) %}
-      <dc:creator>{{ dc.dc_creator|striptags }}</dc:creator>
-  {% endif %}
-  {% if (dc.dc_subject is defined and dc.dc_subject) %}
-      <dc:subject>{{ dc.dc_subject|striptags }}</dc:subject>
-  {% endif %}
-  {% if (dc.dc_description is defined and dc.dc_description) %}
-      <dc:description>{{ dc.dc_description|striptags }}</dc:description>
-  {% endif %}
-  {% if (dc.dc_date is defined and dc.dc_date) %}
-      <dc:date>{{ dc.dc_date|striptags }}</dc:date>
-  {% endif %}
-  {% if (dc.dc_coverage is defined and dc.dc_coverage) %}
-      <dc:coverage>{{ dc.dc_coverage|striptags }}</dc:coverage>
-  {% endif %}
-  {% if (dc.dc_type is defined and dc.dc_type) %}
-      <dc:type>{{ dc.dc_type|striptags }}</dc:type>
-  {% endif %}
-  {% if (dc.dc_relation is defined and dc.dc_relation) %}
-      <dc:relation>{{ dc.dc_relation|striptags }}</dc:relation>
-  {% endif %}
+  {{ _self.dc_value(dc, 'title') }}
+  {{ _self.dc_value(dc, 'creator') }}
+  {{ _self.dc_value(dc, 'subject') }}
+  {{ _self.dc_value(dc, 'description') }}
+  {{ _self.dc_value(dc, 'date') }}
+  {{ _self.dc_value(dc, 'coverage') }}
+  {{ _self.dc_value(dc, 'type') }}
+  {{ _self.dc_value(dc, 'relation') }}
   {% set thumb = get_thumb(record) %}
   {% if (thumb) %}
       <dc:relation>{% trans %}vignette{% endtrans %} : {{ thumb }}</dc:relation>
   {% endif %}
-  {% if (dc.dc_source is defined and dc.dc_source) %}
-      <dc:source>{{ dc.dc_source|striptags }}</dc:source>
-  {% endif %}
-  {% if (dc.dc_rights is defined and dc.dc_rights) %}
-      <dc:rights>{{ dc.dc_rights|striptags }}</dc:rights>
-  {% endif %}
-  {% if (dc.dc_format is defined and dc.dc_format) %}
-      <dc:format>{{ dc.dc_format|striptags }}</dc:format>
-  {% endif %}
-  {% if (dc.dc_identifier is defined and dc.dc_identifier) %}
-      <dc:identifier>{{ dc.dc_identifier|striptags }}</dc:identifier>
-  {% endif %}
-  {% if (dc.dc_language is defined and dc.dc_language) %}
-      <dc:language>{{ dc.dc_language|striptags }}</dc:language>
-  {% endif %}
-  {% if (dc.dc_publisher is defined and dc.dc_publisher) %}
-      <dc:publisher>{{ dc.dc_publisher|striptags }}</dc:publisher>
-  {% endif %}
+  {{ _self.dc_value(dc, 'source') }}
+  {{ _self.dc_value(dc, 'rights') }}
+  {{ _self.dc_value(dc, 'format') }}
+  {{ _self.dc_value(dc, 'identifier') }}
+  {{ _self.dc_value(dc, 'language') }}
+  {{ _self.dc_value(dc, 'publisher') }}
 </oai_dc:dc>
