@@ -65,7 +65,7 @@ In your own Bundle (that manage data), add a service to expose data
     naoned.oaipmh.data_provider:
         class: [YOUR_VENDOR]\[YOUR_BUNDLE]\[YOUR_PATH]\[YOUR_CLASS]
         calls:
-            - [ setContainer, [@service_container] ]
+            - [ setContainer, ["@service_container"] ]
 ```
 
 ## Create Data provider
@@ -240,6 +240,22 @@ class [YOUR_CLASS] extends ContainerAware implements DataProviderInterface
     }
 }
 
+```
+
+If you use Symfony >= 2.8, use ContainerAwareTrait instead of extending ContainerAware :
+
+```php
+namespace [YOUR_VENDOR]\[YOUR_BUNDLE]\[YOUR_PATH];
+
+use Naoned\OaiPmhServerBundle\DataProvider\DataProviderInterface
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+
+class [YOUR_CLASS] implements DataProviderInterface
+{
+    use ContainerAwareTrait;
+
+    ...
+}
 ```
 
 Of course, you have to implement data retreiveing here, based on anything : db (Sql), mappers (Doctrine, Pomm) or any other data storing (ElasticSearch …). That why I made this class container aware, but you can preferely set required services via setters.

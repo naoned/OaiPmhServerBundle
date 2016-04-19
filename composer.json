@@ -10,8 +10,8 @@
     },
     "target-dir" : "Naoned/OaiPmhServerBundle",
     "require": {
-        "php": ">=5.4",
-        "symfony/symfony": "~2.7",
+        "php": ">=5.4|~7.0",
+        "symfony/symfony": "~2.7|~3.0",
         "doctrine/common": "~2"
     }
 }

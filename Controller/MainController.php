@@ -3,6 +3,7 @@
 namespace Naoned\OaiPmhServerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Naoned\OaiPmhServerBundle\Exception\OaiPmhServerException;
 use Naoned\OaiPmhServerBundle\Exception\BadVerbException;
@@ -25,12 +26,12 @@ class MainController extends Controller
 
     private $queryParams = array();
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         try {
-            $this->get('naoned.oaipmh.ruler')->checkParamsUnicity($this->getRequest()->getQueryString());
+            $this->get('naoned.oaipmh.ruler')->checkParamsUnicity($request->getQueryString());
 
-            $this->allArgs = $this->getAllArguments();
+            $this->allArgs = $this->getAllArguments($request);
             if (!array_key_exists('verb', $this->allArgs)) {
                 throw new BadVerbException('The verb argument is missing');
             }
@@ -39,7 +40,7 @@ class MainController extends Controller
                 throw new BadVerbException('Value of the verb argument is not a legal OAI-PMH verb.');
             }
             $methodName = $verb.'Verb';
-            return $this->$methodName();
+            return $this->$methodName($request);
         } catch (\Exception $e) {
             if ($e instanceof OaiPmhServerException) {
                 $reflect = new \ReflectionClass($e);
@@ -56,11 +57,11 @@ class MainController extends Controller
         }
     }
 
-    private function getAllArguments()
+    private function getAllArguments(Request $request)
     {
         return array_merge(
-            $this->getRequest()->query->all(),
-            $this->getRequest()->request->all()
+            $request->query->all(),
+            $request->request->all()
         );
     }
 
@@ -79,12 +80,12 @@ class MainController extends Controller
         );
     }
 
-    private function identifyVerb()
+    private function identifyVerb(Request $request)
     {
         $dataProvider = $this->getDataProvider();
         $oaiPmhRuler = $this->get('naoned.oaipmh.ruler');
         $this->queryParams = $oaiPmhRuler->retrieveAndCheckArguments(
-            $this->getAllArguments()
+            $this->getAllArguments($request)
         );
         return $this->render(
             'NaonedOaiPmhServerBundle::identify.xml.twig',
@@ -95,12 +96,12 @@ class MainController extends Controller
         );
     }
 
-    private function getRecordVerb()
+    private function getRecordVerb(Request $request)
     {
         $dataProvider = $this->getDataProvider();
         $oaiPmhRuler = $this->get('naoned.oaipmh.ruler');
         $this->queryParams = $oaiPmhRuler->retrieveAndCheckArguments(
-            $this->getAllArguments(),
+            $this->getAllArguments($request),
             array(
                 'metadataPrefix',
                 'identifier',
@@ -119,11 +120,11 @@ class MainController extends Controller
         );
     }
 
-    private function listCommon()
+    private function listCommon(Request $request)
     {
         $oaiPmhRuler = $this->get('naoned.oaipmh.ruler');
         $this->queryParams = $oaiPmhRuler->retrieveAndCheckArguments(
-            $this->getAllArguments(),
+            $this->getAllArguments($request),
             array('metadataPrefix'),
             array('from','until','set'),
             array('resumptionToken')
@@ -166,27 +167,27 @@ class MainController extends Controller
         );
     }
 
-    private function listRecordsVerb()
+    private function listRecordsVerb(Request $request)
     {
         return $this->render(
             'NaonedOaiPmhServerBundle::listRecords.xml.twig',
-            $this->listCommon()
+            $this->listCommon($request)
         );
     }
 
-    private function listIdentifiersVerb()
+    private function listIdentifiersVerb(Request $request)
     {
         return $this->render(
             'NaonedOaiPmhServerBundle::listIdentifiers.xml.twig',
-            $this->listCommon()
+            $this->listCommon($request)
         );
     }
 
-    private function listMetadataFormatsVerb()
+    private function listMetadataFormatsVerb(Request $request)
     {
         $oaiPmhRuler = $this->get('naoned.oaipmh.ruler');
         $this->queryParams = $oaiPmhRuler->retrieveAndCheckArguments(
-            $this->getAllArguments(),
+            $this->getAllArguments($request),
             array(),
             array('identifier')
         );
@@ -203,11 +204,11 @@ class MainController extends Controller
         );
     }
 
-    private function listSetsVerb()
+    private function listSetsVerb(Request $request)
     {
         $oaiPmhRuler = $this->get('naoned.oaipmh.ruler');
         $this->queryParams = $oaiPmhRuler->retrieveAndCheckArguments(
-            $this->getAllArguments(),
+            $this->getAllArguments($request),
             array(),
             array(),
             array('resumptionToken')
