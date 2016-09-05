@@ -107,7 +107,7 @@ class OaiPmhRuler
     public static function retrieveAndCheckArguments(
         array $allArguments,
         array $required = array(),
-        array $optionnal = array(),
+        array $optional = array(),
         array $exclusive = array()
     ) {
         $found = false;
@@ -125,7 +125,7 @@ class OaiPmhRuler
                 }
                 $queryParams[$name] = $allArguments[$name];
             }
-            foreach ($optionnal as $name) {
+            foreach ($optional as $name) {
                 if (array_key_exists($name, $allArguments)) {
                     $queryParams[$name] = $allArguments[$name];
                 }
