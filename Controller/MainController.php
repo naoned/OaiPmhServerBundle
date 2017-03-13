@@ -149,7 +149,7 @@ class MainController extends Controller
             $until
         );
         if (!(is_array($records) || $records instanceof \ArrayObject)) {
-            throw new Exception('Implementation error: Records must be an array or an arrayObject');
+            throw new \Exception('Implementation error: Records must be an array or an arrayObject');
         }
         if (!count($records)) {
             throw new noRecordsMatchException();
@@ -219,7 +219,7 @@ class MainController extends Controller
         }
         $sets = $dataProvider->getSets();
         if ($sets !== null && (!(is_array($sets) || ($sets instanceof \ArrayObject)))) {
-            throw new Exception('Implementation error: Sets must be an array or an arrayObject');
+            throw new \Exception('Implementation error: Sets must be an array or an arrayObject');
         }
         $searchParams = $oaiPmhRuler->getSearchParams(
             $this->queryParams,
