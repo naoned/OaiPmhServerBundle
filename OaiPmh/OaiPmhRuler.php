@@ -46,7 +46,7 @@ class OaiPmhRuler
             && $resumptionToken = $queryParams['resumptionToken']
         ) {
             $cacheData = $cache->fetch($this->getcacheKey($resumptionToken));
-            if (!$cacheData || $cacheData['verb'] != $queryParams['verb']) {
+            if (!$cacheData) {
                 throw new badResumptionTokenException();
             }
             $searchParams = $cacheData;
