@@ -4,7 +4,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd"
 >
-  <responseDate>{{ "now"|date('Y-m-d\\TH:i:sP') }}</responseDate>
+  <responseDate>{{ "now"|date('Y-m-d\\TH:i:s\\Z') }}</responseDate>
   <request
     {% if (queryParams.verb is defined and queryParams.verb) %}verb="{{ queryParams.verb }}"{% endif %}
     {% block requestParams %}
